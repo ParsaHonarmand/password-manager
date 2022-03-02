@@ -7,9 +7,9 @@ import SignIn from "./pages/SignIn";
 function App() {
   return (
     <div className="App">
-      {/* <SignIn /> */}
       <TopBar />
-      {/* <PasswordAdder /> */}
+      <SignIn />
+      <PasswordAdder />
       <PasswordGetter />
     </div>
   );
