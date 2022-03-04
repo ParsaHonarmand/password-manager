@@ -2,13 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import Vault from "./Vault";
+import Generator from "./Generator";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Router>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/vault" element={<Vault />} />
+      <Route path="/generator" element={<Generator />} />
+    </Routes>
+  </Router>  ,
   document.getElementById("root")
 );
 
