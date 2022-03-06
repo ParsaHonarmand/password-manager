@@ -1,4 +1,3 @@
-//import * as React from "react";
 import React, { useState } from "react";
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Button,
 } from "@mui/material";
 
 export default function PassGenerator() {
@@ -46,12 +46,13 @@ export default function PassGenerator() {
 
       <Slider
         aria-label="Password Length"
-        sx={{ width: 1 / 2 }}
+        sx={{ width: 1 / 2, mt: 3 }}
         valueLabelDisplay="on"
         value={length}
         onChange={handleLengthChange}
         min={8}
         max={20}
+        color="secondary"
       />
 
       <Typography
@@ -62,6 +63,9 @@ export default function PassGenerator() {
       >
         Password length: {length}
       </Typography>
+      <Button color="secondary" variant="contained">
+        Generate
+      </Button>
     </Box>
   );
 }
