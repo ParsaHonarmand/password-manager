@@ -5,15 +5,13 @@ import {
   Toolbar,
   Typography,
   Button,
-  IconButton,
   ListItem,
   ListItemText,
   ListItemButton,
   Link,
 } from "@mui/material";
-import { Menu } from "@mui/icons-material";
-import { Link as RouterLink } from "react-router-dom";
-import state, { useState } from "react";
+// import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
 
@@ -22,13 +20,10 @@ export default function TopBar() {
   const handleToggle = () => {
     setNavbarOpen(!navbarOpen);
   };
-  const closeMenu = () => {
-    setNavbarOpen(false);
-  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar style={{ backgroundColor: "darkcyan" }}>
           <nav className="navBar">
             <Button onClick={handleToggle}>
               {navbarOpen ? (
@@ -54,10 +49,19 @@ export default function TopBar() {
               </ListItemButton>
             </ul>
           </nav>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href="/">Password Manager</Link>
+          <Typography
+            variant="h6"
+            component="div"
+            align="center"
+            sx={{ flexGrow: 1 }}
+          >
+            <Link href="/" style={{ color: "white" }}>
+              Password Manager
+            </Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" href="/signin">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

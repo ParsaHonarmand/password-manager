@@ -1,12 +1,10 @@
 import "./Vault.css";
-import TopBar from "./components/TopBar";
-import LoginList from "./components/vault/LoginList";
+import PasswordGetter from "./components/PasswordGetter";
 
 function Vault() {
   return (
     <div className="Vault">
-      <TopBar />
-      <LoginList />
+      <PasswordGetter />
     </div>
   );
 }

@@ -39,7 +39,7 @@ export default function PasswordAdder() {
         gutterBottom
         style={{ color: "#404040" }}
       >
-        Save password:
+        Save a password:
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
