@@ -1,38 +1,55 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 2s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: center; */
 }
 
-.App-link {
-  color: #61dafb;
+/* sidebar Nav */
+
+.navBar {
+  position: relative;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navBar Button {
+  position: relative;
+  left: 0px;
+  top: 5px;
+  z-index: 10;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.menuNav {
+  visibility: hidden;
+  overflow-y: scroll;
+  list-style: none;
+  position: fixed;
+  background: darkcyan;
+  left: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 0;
+  overflow: hidden;
+  max-width: 290px;
+  z-index: 5;
+}
+
+.menuNav.showMenu {
+  width: 100%;
+  visibility: visible;
+}
+
+.navBar .MuiListItemText-root {
+  padding: 15px 10px;
+}
+
+.navBar .filler {
+  padding: 10px;
+}
+
+.menuNav li:first-child {
+  margin-top: 7rem;
 }
