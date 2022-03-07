@@ -10,15 +10,10 @@ import {
   ListItemText,
   ListItemButton,
   List,
-  ListItemIcon,
   Link,
 } from "@mui/material";
 // import { Link as RouterLink } from "react-router-dom";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
-import { useState } from "react";
-import { MdClose } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
 
 export default function TopBar() {
@@ -40,25 +35,15 @@ export default function TopBar() {
     setState({ ...state, [anchor]: open });
   };
 
-  const [navbarOpen, setNavbarOpen] = useState(false);
-  const handleToggle = () => {
-    setNavbarOpen(!navbarOpen);
-  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar style={{ backgroundColor: "darkcyan" }}>
           <nav className="navBar">
             <Button onClick={toggleDrawer("left", true)}>
-              {navbarOpen ? (
-                <MdClose
-                  style={{ color: "#fff", width: "40px", height: "40px" }}
-                />
-              ) : (
-                <FiMenu
-                  style={{ color: "#fff", width: "40px", height: "40px" }}
-                />
-              )}
+              <FiMenu
+                style={{ color: "#fff", width: "40px", height: "40px" }}
+              />
             </Button>
           </nav>
           <Typography
