@@ -6,10 +6,53 @@ import {
   Box,
   Typography,
   Button,
+  List,
+  ListItemButton,
+  ListItemText,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  InputAdornment,
 } from "@mui/material";
+import {
+  Folder as FolderIcon,
+  Delete as DeleteIcon,
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+} from "@mui/icons-material";
+
+function LoginListItem(name, website) {
+  return (
+    <ListItem
+      secondaryAction={
+        <>
+          <IconButton
+            onClick={() => console.log("Click delete")}
+            edge="end"
+            aria-label="delete"
+            sx={{ mb: 2 }}
+          >
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => console.log("Click show")}
+            edge="end"
+            sx={{ mb: 2 }}
+            aria-label="delete"
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </>
+      }
+    >
+      <ListItemText primary={name} secondary={website} />
+    </ListItem>
+  );
+}
 
 export default function PasswordGetter() {
-  const [validInput, setValidInput] = useState("");
+  const [validInput, setValidInput] = useState(false);
   return (
     <Box
       sx={{
@@ -28,7 +71,6 @@ export default function PasswordGetter() {
         Search for a login:
       </Typography>
       <Autocomplete
-        // disablePortal
         id="logins"
         options={savedLogins}
         sx={{ width: 300 }}
@@ -44,26 +86,30 @@ export default function PasswordGetter() {
           />
         )}
       />
-      <Button
-        variant={validInput ? "contained" : "outlined"}
-        sx={{ mt: 2, mb: 2 }}
-      >
-        Show Password
-      </Button>
+      {validInput && 
+        <Button
+          variant={validInput ? "contained" : "outlined"}
+          sx={{ mt: 2, mb: 2 }}
+        >
+          Show Password
+        </Button>}
+      {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
+        You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
+        {savedLogins.map((login) => LoginListItem(login.label, login.passwor))}
+      </List> */}
     </Box>
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const savedLogins = [
-  { label: "Google", password: "password123" },
-  { label: "Facebook", password: "password123" },
-  { label: "Instagram", password: "password123" },
-  { label: "Firefox", password: "password123" },
-  { label: "Snapchat", password: "password123" },
-  { label: "Reddit", password: "password123" },
-  { label: "D2L", password: "password123" },
-  { label: "ucalgary.ca", password: "password123" },
-  { label: "miniclip.com", password: "password123" },
-  { label: "Cool Math Games", password: "password123" },
+  { label: "Google", password: "www.Google.com" },
+  { label: "Facebook", password: "www.Facebook.com" },
+  { label: "Instagram", password: "www.Instagram.com" },
+  { label: "Firefox", password: "www.Firefox.com" },
+  { label: "Snapchat", password: "www.Snapchat.com" },
+  { label: "Reddit", password: "www.Reddit.com" },
+  { label: "D2L", password: "www.D2L.com" },
+  { label: "ucalgary", password: "www.ucalgary.ca" },
+  { label: "Miniclip", password: "www.miniclip.com" },
+  { label: "Cool Math Games", password: "www.Cool Math Games.com" },
 ];
