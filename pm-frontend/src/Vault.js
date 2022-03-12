@@ -86,13 +86,14 @@ export default function PasswordGetter() {
           />
         )}
       />
-      {validInput && 
+      {validInput && (
         <Button
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2 }}
         >
           Show Password
-        </Button>}
+        </Button>
+      )}
       {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
         You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
         {savedLogins.map((login) => LoginListItem(login.label, login.passwor))}
