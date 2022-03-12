@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Axios from 'axios'
 import {
   Box,
   Typography,
@@ -12,11 +13,25 @@ import {
 
 export default function PassGenerator() {
   const [passType, setPassType] = useState("word");
-
-  const [length, setValue] = React.useState(12);
+  const [length, setLength] = useState(12);
+  const [generatedPass, setGeneratedPass] = useState('')
+  
+  const generate = () => {
+    const obj = {
+      passType: passType, 
+      length: length
+    }
+    // console.log(obj)
+    Axios.get('http://localhost:3001/a').then((res) => {
+      // setPassType(res.data)
+      console.log(res.data)
+      setGeneratedPass(res.data)
+    })
+  }
   const handleLengthChange = (event, newValue) => {
-    setValue(newValue);
+    setLength(newValue);
   };
+
   return (
     <Box>
       <FormControl sx={{ mt: 5 }}>
@@ -63,9 +78,10 @@ export default function PassGenerator() {
       >
         Password length: {length}
       </Typography>
-      <Button color="secondary" variant="contained">
+      <Button color="secondary" variant="contained" onClick={generate}>
         Generate
       </Button>
+      {generatedPass && ( <Typography mt={2} variant='h1'>{generatedPass}</Typography> )}
     </Box>
   );
 }

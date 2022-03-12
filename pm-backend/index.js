@@ -1,8 +1,12 @@
 require("dotenv").config();
+var generatePassword = require('password-generator')
 const express = require("express");
+const cors = require('cors')
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const app = express();
+
+app.use(cors())
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -37,7 +41,13 @@ client.connect((err, client) => {
 });
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from Express!" });
+  res.send("<h1>Hi mom</h1>");
+//   res.json({ message: "Hi from Express!" });
+});
+
+app.get("/a", (req, res) => {
+    const pass = generatePassword()
+    res.send(pass)
 });
 
 app.listen(3001, () => console.log("Server listening on 3001"));

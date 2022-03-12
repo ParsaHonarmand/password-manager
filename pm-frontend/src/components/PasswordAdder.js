@@ -67,13 +67,11 @@ export default function PasswordAdder() {
           Save login
         </Button>
       </Box>
-      {submitted ? (
+      {submitted && (
         <>
           <Typography>encrypting...</Typography>
           <CircularProgress />
         </>
-      ) : (
-        <></>
       )}
     </Box>
   );
