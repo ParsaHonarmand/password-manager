@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Radio,
   Button,
+  IconButton,
 } from "@mui/material";
 
 export default function PassGenerator() {
@@ -82,6 +83,7 @@ export default function PassGenerator() {
         Generate
       </Button>
       {generatedPass && ( <Typography mt={2} variant='h1'>{generatedPass}</Typography> )}
+      <Button variant='contained' onClick={() => navigator.clipboard.writeText(generatedPass)}>copy</Button>
     </Box>
   );
 }
