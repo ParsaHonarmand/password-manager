@@ -52,13 +52,11 @@ export default function TopBar() {
             align="center"
             sx={{ flexGrow: 1 }}
           >
-            <Link href="/" style={{ color: "white" }}>
-              Password Manager
-            </Link>
+            <Button color = "inherit" href="/">Password Manager</Button>
           </Typography>
-          <Button color="inherit" href="/signin">
-            Login
-          </Button>
+
+          <Button color="inherit" href="/signin">Login</Button>
+
         </Toolbar>
       </AppBar>
 
