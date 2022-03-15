@@ -19,7 +19,7 @@ const hashPassword = async password => {
     return hash
 }
 
-const addUser = async (firstName, lastName, email, hashedPassword, passphrase) => {
+const addUser = async (firstName, lastName, email, hashedPassword, hashedPassphrase) => {
     try {
         const db = mongoClient.db("password-manager-db")
         await db.collection("users").insertOne({ 
@@ -27,7 +27,7 @@ const addUser = async (firstName, lastName, email, hashedPassword, passphrase) =
             "last_name": lastName, 
             "email":email, 
             "password": hashedPassword, 
-            "passphrase": passphrase 
+            "passphrase": hashedPassphrase 
         })
     } catch (error) {
         return response.status(500).send("Error occured when adding user")
@@ -49,7 +49,8 @@ const signUp = async (request, response) => {
     if (!validateEmail(email))
         return response.status(400).send("Please Enter a valid email")
 
-    let hashedPassword = await hashPassword(password);
+    let hashedPassword = await hashPassword(password)
+    let hashedPassphrase = await hashPassword(passphrase)
     const db = mongoClient.db("password-manager-db")
     db.collection("users").findOne({ email: email }, async (err, result) =>{
         if (err) 
@@ -60,7 +61,7 @@ const signUp = async (request, response) => {
             return response.status(400).send("Sorry, that email is already taken")
         }
 
-        let token = await addUser(firstName, lastName, email, hashedPassword, passphrase)
+        let token = await addUser(firstName, lastName, email, hashedPassword, hashedPassphrase)
         if (!token)
             return response.status(500).send("An error has occured")
 
@@ -86,7 +87,6 @@ const login = async (request, response) => {
         if (err) 
             response.status(500).send("An error has occured")
 
-        console.log(result);
         if (result === null) {
             return response.status(401).send("Incorrect email/password")
         }
