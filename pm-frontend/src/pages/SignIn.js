@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 // import CssBaseline from "@mui/material/CssBaseline";
@@ -13,7 +14,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const apiEndpoint = "http://localhost:3001"
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
@@ -21,6 +24,15 @@ export default function SignIn() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    // example of how to hit the api endpoint.
+    // should use post here and send the email/password instead
+    try {
+      const res = await axios.get(apiEndpoint + '/')
+      alert(res.data.message)
+    } catch(error) {
+      console.log("Failed to login")
+      console.log(error)
+    }
   };
 
   return (
