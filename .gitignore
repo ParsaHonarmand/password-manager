@@ -25,3 +25,9 @@ yarn-error.log*
 
 env
 .env
+.code-workspace
+
+/pm-backend/.env
+/pm-backend/node_modules
+/pm-frontend/.env
+/pm-frontend/node_modules
