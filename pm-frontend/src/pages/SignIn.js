@@ -11,16 +11,31 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useState } from "react";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:3001/",
+});
 
 export default function SignIn() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    axios
+      .post("http://localhost:3001/login", {
+        email: data.get("email"),
+        password: data.get("password"),
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -61,6 +76,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -71,6 +88,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
