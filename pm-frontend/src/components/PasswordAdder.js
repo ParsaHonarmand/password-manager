@@ -29,6 +29,7 @@ export default function PasswordAdder() {
     <Box
       sx={{
         marginTop: 8,
+        marginBottom: 8,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -55,6 +56,14 @@ export default function PasswordAdder() {
         />
         <TextField
           margin="normal"
+          fullWidth
+          name="username"
+          label="Username"
+          id="username"
+          autoComplete="username"
+        />
+        <TextField
+          margin="normal"
           required
           fullWidth
           name="password"
@@ -69,7 +78,7 @@ export default function PasswordAdder() {
       </Box>
       {submitted && (
         <>
-          <Typography>encrypting...</Typography>
+          <Typography>Encrypting...</Typography>
           <CircularProgress />
         </>
       )}

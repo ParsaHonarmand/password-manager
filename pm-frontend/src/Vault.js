@@ -1,29 +1,30 @@
 import * as React from "react";
 import { useState } from "react";
+import PasswordAdder from "./components/PasswordAdder";
 import {
   TextField,
   Autocomplete,
   Box,
   Typography,
   Button,
-  List,
-  ListItemButton,
+  //List,
+  //ListItemButton,
   ListItemText,
   IconButton,
   ListItem,
-  ListItemAvatar,
-  Avatar,
-  InputAdornment,
+  //ListItemAvatar,
+  //Avatar,
+  //InputAdornment,
 } from "@mui/material";
 import {
-  Folder as FolderIcon,
+  //Folder as FolderIcon,
   Delete as DeleteIcon,
   Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
+  //VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
 
 function LoginListItem(name, website) {
-  return (
+  return (  
     <ListItem
       secondaryAction={
         <>
@@ -55,13 +56,14 @@ export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
   return (
     <Box
-      sx={{
-        marginTop: 8,
+      sx={{        
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
+      <PasswordAdder sx={{mb: 5}}/>
+
       <Typography
         variant="h4"
         component="div"
@@ -74,25 +76,46 @@ export default function PasswordGetter() {
         id="logins"
         options={savedLogins}
         sx={{ width: 300 }}
+        onInputChange={(event, newInputValue) => {
+          setValidInput(newInputValue);
+          console.log(newInputValue);
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Login"
             variant="standard"
-            onChange={(event) => {
-              setValidInput(event.target.value);
-              console.log(event.target.value);
+            onChange={(event, newValue) => {
+              setValidInput(newValue);
+              console.log(newValue);
             }}
           />
         )}
       />
       {validInput && (
-        <Button
+        <Box
+        sx={{        
+          display: "flex",
+          //flexDirection: "column",
+          alignItems: "center",
+        }}
+        >
+          <Button
+            //onClick={revealPassword(validInput)}
+            variant={validInput ? "contained" : "outlined"}
+            sx={{ mt: 2, mb: 2, mr: 2}}
+          >
+            Reveal 
+          </Button>
+
+          <Button
+          //onClick={deleteEntry(validInput)}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2 }}
-        >
-          Show Password
-        </Button>
+          >
+            Delete This Entry
+          </Button>
+        </Box>
       )}
       {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
         You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()

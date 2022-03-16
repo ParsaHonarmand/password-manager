@@ -41,13 +41,13 @@ export default function PassGenerator() {
             value="word"
             checked={passType === "word"}
             control={<Radio onChange={() => setPassType("word")} />}
-            label="word"
+            label="Password"
           />
           <FormControlLabel
             value="phrase"
             checked={passType === "phrase"}
             control={<Radio onChange={() => setPassType("phrase")} />}
-            label="phrase"
+            label="Passphrase"
           />
         </RadioGroup>
       </FormControl>
@@ -57,7 +57,7 @@ export default function PassGenerator() {
         gutterBottom
         style={{ color: "#404040" }}
       >
-        Generating pass{passType}
+        Generating Pass{passType}
       </Typography>
 
       <Slider
@@ -84,6 +84,24 @@ export default function PassGenerator() {
       </Button>
       {generatedPass && ( <Typography mt={2} variant='h1'>{generatedPass}</Typography> )}
       <Button variant='contained' onClick={() => navigator.clipboard.writeText(generatedPass)}>copy</Button>
+
+      <Typography
+        variant="h5"
+        component="div"
+        gutterBottom
+        style={{color: "#404040" }}
+      >
+        Generated Pass{passType}:
+      </Typography>
+
+      <Typography
+        variant="h6"
+        component="div"
+        gutterBottom
+        style={{ color: "#404040" }}
+      >
+        password123
+      </Typography>
     </Box>
   );
 }

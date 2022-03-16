@@ -4,7 +4,7 @@ import PasswordAdder from "./components/PasswordAdder";
 function App() {
   return (
     <div className="App">
-      <PasswordAdder />
+      
     </div>
   );
 }
