@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Tooltip } from "@mui/material";
 import { Help as HelpIcon } from "@mui/icons-material";
+import axios from "axios";
 
 const theme = createTheme();
 
@@ -19,10 +20,21 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    axios.post(
+      "http://localhost:3001/signup",
+      {
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        email: data.get("email"),
+        password: data.get("password"),
+        passphrase: data.get("passphrase"),
+      },
+      {
+        headers: {
+          token: "JWT_TOKEN_HERE",
+        },
+      }
+    );
   };
 
   return (
@@ -102,10 +114,13 @@ export default function SignUp() {
                   id="passphrase"
                   autoComplete="new-passphrase"
                 />
-                <Tooltip title="a passphrase is ..." followCursor>
+                <Tooltip
+                  title="you will enter your password once when you log on to our service. You will be required to use your passphrase every time you want to reveal one of your saved logins, as an extra layer of security"
+                  followCursor
+                >
                   <Typography>
                     <HelpIcon />
-                    What's this?
+                    What's the difference?
                   </Typography>
                 </Tooltip>
               </Grid>
