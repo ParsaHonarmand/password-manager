@@ -24,7 +24,7 @@ import {
 } from "@mui/icons-material";
 
 function LoginListItem(name, website) {
-  return (  
+  return (
     <ListItem
       secondaryAction={
         <>
@@ -56,13 +56,13 @@ export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
   return (
     <Box
-      sx={{        
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <PasswordAdder sx={{mb: 5}}/>
+      <PasswordAdder sx={{ mb: 5 }} />
 
       <Typography
         variant="h4"
@@ -92,31 +92,32 @@ export default function PasswordGetter() {
           />
         )}
       />
-      {validInput && (
-        <Box
-        sx={{        
+
+      <Box
+        sx={{
           display: "flex",
           //flexDirection: "column",
           alignItems: "center",
         }}
+      >
+        <Button
+          // onClick={revealPassword(validInput)}
+          disabled={!validInput}
+          variant={validInput ? "contained" : "outlined"}
+          sx={{ mt: 2, mb: 2, mr: 2 }}
         >
-          <Button
-            //onClick={revealPassword(validInput)}
-            variant={validInput ? "contained" : "outlined"}
-            sx={{ mt: 2, mb: 2, mr: 2}}
-          >
-            Reveal 
-          </Button>
+          Reveal
+        </Button>
 
-          <Button
+        <Button
           //onClick={deleteEntry(validInput)}
+          disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2 }}
-          >
-            Delete This Entry
-          </Button>
-        </Box>
-      )}
+        >
+          Delete This Entry
+        </Button>
+      </Box>
       {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
         You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
         {savedLogins.map((login) => LoginListItem(login.label, login.passwor))}
