@@ -22,38 +22,38 @@ import {
   Visibility as VisibilityIcon,
   //VisibilityOff as VisibilityOffIcon,
 } from "@mui/icons-material";
-
-function LoginListItem(name, website) {
-  return (
-    <ListItem
-      secondaryAction={
-        <>
-          <IconButton
-            onClick={() => console.log("Click delete")}
-            edge="end"
-            aria-label="delete"
-            sx={{ mb: 2 }}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => console.log("Click show")}
-            edge="end"
-            sx={{ mb: 2 }}
-            aria-label="delete"
-          >
-            <VisibilityIcon />
-          </IconButton>
-        </>
-      }
-    >
-      <ListItemText primary={name} secondary={website} />
-    </ListItem>
-  );
-}
+const axios = require("axios");
 
 export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
+  const [selectedSite, setSelectedSite] = useState("");
+  const revealPassword = (site) => {
+    axios.post(
+      "http://localhost:3001/passwords/reveal",
+      {
+        requestedSite: site,
+      },
+      {
+        headers: {
+          token: "JWT_TOKEN_HERE",
+        },
+      }
+    );
+  };
+  const deleteEntry = (site) => {
+    axios.post(
+      "http://localhost:3001/passwords/delete",
+      {
+        requestedSite: site,
+      },
+      {
+        headers: {
+          token: "JWT_TOKEN_HERE",
+        },
+      }
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -62,7 +62,7 @@ export default function PasswordGetter() {
         alignItems: "center",
       }}
     >
-      <PasswordAdder sx={{ mb: 5 }} />
+      <PasswordAdder sx={{ mb: 2 }} />
 
       <Typography
         variant="h4"
@@ -78,6 +78,7 @@ export default function PasswordGetter() {
         sx={{ width: 300 }}
         onInputChange={(event, newInputValue) => {
           setValidInput(newInputValue);
+          setSelectedSite(newInputValue);
           console.log(newInputValue);
         }}
         renderInput={(params) => (
@@ -101,7 +102,7 @@ export default function PasswordGetter() {
         }}
       >
         <Button
-          // onClick={revealPassword(validInput)}
+          onClick={revealPassword(selectedSite)}
           disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2, mr: 2 }}
@@ -110,7 +111,7 @@ export default function PasswordGetter() {
         </Button>
 
         <Button
-          //onClick={deleteEntry(validInput)}
+          onClick={deleteEntry(selectedSite)}
           disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2 }}

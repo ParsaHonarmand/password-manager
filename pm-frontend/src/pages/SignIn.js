@@ -14,10 +14,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState } from "react";
 
-const api = axios.create({
-  baseURL: "http://localhost:3001/",
-});
-
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
