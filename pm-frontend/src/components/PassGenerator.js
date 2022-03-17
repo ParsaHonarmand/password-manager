@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from 'axios'
 import {
+  Stack,
   Box,
   Typography,
   Slider,
@@ -79,11 +80,11 @@ export default function PassGenerator() {
       >
         Password length: {length}
       </Typography>
-      <Button color="secondary" variant="contained" onClick={generate}>
-        Generate
-      </Button>
-      {generatedPass && ( <Typography mt={2} variant='h1'>{generatedPass}</Typography> )}
-      <Button variant='contained' onClick={() => navigator.clipboard.writeText(generatedPass)}>copy</Button>
+
+      <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" marginTop={3} marginBottom={3}>
+        <Button color="secondary" variant="contained" onClick={generate}>Generate</Button>        
+        <Button variant='contained' onClick={() => navigator.clipboard.writeText(generatedPass)}>copy</Button>
+      </Stack>
 
       <Typography
         variant="h5"
@@ -100,7 +101,7 @@ export default function PassGenerator() {
         gutterBottom
         style={{ color: "#404040" }}
       >
-        password123
+        {generatedPass && ( <Typography mt={2} variant='h1'>{generatedPass}</Typography> )}
       </Typography>
     </Box>
   );
