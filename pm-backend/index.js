@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const authenticate = require('./queries/auth')
 const vault = require('./queries/vault')
 const passwordGenerator = require('./queries/passwordGenerator')
+const authMiddleware = require('./queries/authMiddleware')
 
 const app = express()
 
@@ -30,7 +31,7 @@ app.post('/signup', authenticate.signUp)
 
 app.post('/addPassword', vault.addPassword)
 app.delete('/removePassword', vault.removePassword)
-app.put('/cahngePassword', vault.changePassword)
+app.put('/changePassword', vault.changePassword)
 app.get('/password', vault.getPassword)
 app.get('/passwords', vault.getAllPasswords)
 
