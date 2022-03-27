@@ -10,24 +10,24 @@ import {
   //List,
   //ListItemButton,
   //ListItemText,
-  //IconButton,
+  IconButton,
   //ListItem,
   //ListItemAvatar,
   //Avatar,
   //InputAdornment,
 } from "@mui/material";
-import {
-  //Folder as FolderIcon,
-  //Delete as DeleteIcon,
-  //Visibility as VisibilityIcon,
-  //VisibilityOff as VisibilityOffIcon,
-} from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 const axios = require("axios");
 
 export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
-  const [selectedSite, setSelectedSite] = useState("");
+  const [selectedSite, setSelectedSite] = useState();
+  const [revealed, setRevealed] = useState(false);
+
   const revealPassword = (site) => {
+    console.log("Revealing " + site.label);
+    setRevealed(true);
     axios.post(
       "http://localhost:3001/passwords/reveal",
       {
@@ -40,7 +40,24 @@ export default function PasswordGetter() {
       }
     );
   };
+
   const deleteEntry = (site) => {
+    console.log("Deleting " + site.label);
+    axios.post(
+      "http://localhost:3001/passwords/delete",
+      {
+        requestedSite: site,
+      },
+      {
+        headers: {
+          token: "JWT_TOKEN_HERE",
+        },
+      }
+    );
+  };
+
+  const editEntry = (site) => {
+    console.log("Editing " + site.label);
     axios.post(
       "http://localhost:3001/passwords/delete",
       {
@@ -73,23 +90,37 @@ export default function PasswordGetter() {
         Search for a login:
       </Typography>
       <Autocomplete
+        autoComplete = {true}
+        autoHighlight = {true}
+        autoSelect = {true}
         id="logins"
         options={savedLogins}
+        getOptionLabel={(option) => option.label}
         sx={{ width: 300 }}
-        onInputChange={(event, newInputValue) => {
-          setValidInput(newInputValue);
-          setSelectedSite(newInputValue);
-          console.log(newInputValue);
+        onChange={(event, value, reason) => {
+            setValidInput(true);
+            setRevealed(false);
+            setSelectedSite(value);
         }}
+        renderOption={(props, option) => (
+          <Box component="li" {...props}>
+            {option.label}
+            <Box sx={{marginLeft: "auto"}}>
+              <IconButton color="primary" onClick={ () => editEntry(option)}>
+                <EditIcon/>
+              </IconButton>
+
+              <IconButton color ="error" onClick={ () => deleteEntry(option)}>
+                <DeleteIcon/>
+              </IconButton>
+            </Box>
+          </Box>
+        )}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Login"
             variant="standard"
-            onChange={(event, newValue) => {
-              setValidInput(newValue);
-              console.log(newValue);
-            }}
           />
         )}
       />
@@ -102,7 +133,7 @@ export default function PasswordGetter() {
         }}
       >
         <Button
-          onClick={revealPassword(selectedSite)}
+          onClick={ () => revealPassword(selectedSite)}
           disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2, mr: 2 }}
@@ -111,7 +142,7 @@ export default function PasswordGetter() {
         </Button>
 
         <Button
-          onClick={deleteEntry(selectedSite)}
+          onClick={ () => deleteEntry(selectedSite)}
           disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2 }}
@@ -119,6 +150,13 @@ export default function PasswordGetter() {
           Delete This Entry
         </Button>
       </Box>
+
+      {revealed ?  <Box alignItems={"left"} sx={{mt: 4}}>
+        <Typography>Website: {selectedSite.label}</Typography>
+        <Typography>Username: N/A</Typography>
+        <Typography>Password: {selectedSite.password}</Typography>
+      </Box>
+      : null }
       {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
         You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
         {savedLogins.map((login) => LoginListItem(login.label, login.passwor))}
