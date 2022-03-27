@@ -5,12 +5,14 @@ import {
   TextField,
   Autocomplete,
   Box,
+  Grid,
   Typography,
   Button,
   //List,
   //ListItemButton,
   //ListItemText,
   IconButton,
+  Stack,
   //ListItem,
   //ListItemAvatar,
   //Avatar,
@@ -18,6 +20,7 @@ import {
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 const axios = require("axios");
 
 export default function PasswordGetter() {
@@ -151,11 +154,39 @@ export default function PasswordGetter() {
         </Button>
       </Box>
 
-      {revealed ?  <Box alignItems={"left"} sx={{mt: 4}}>
-        <Typography>Website: {selectedSite.label}</Typography>
-        <Typography>Username: N/A</Typography>
-        <Typography>Password: {selectedSite.password}</Typography>
-      </Box>
+      {revealed ?  
+        <Box alignItems={"center"} sx={{ ml: "auto", mr: "auto", mt: 4}}>
+          <Grid container spacing={1} columns={4}>
+          <Grid item xs={1}></Grid>
+            <Grid item xs={1}>
+              <Typography>Website:</Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>{selectedSite.label}</Typography>
+            </Grid>
+
+            <Grid item xs={1}></Grid>
+            <Grid item xs={1}>
+              <Typography>Username:</Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>N/A</Typography>
+            </Grid>
+            
+            <Grid item xs={1}></Grid>
+            <Grid item xs={1}>
+              <Typography>Password:</Typography>
+            </Grid>
+            <Grid item xs={1}>
+             <Typography>{selectedSite.password}</Typography>             
+            </Grid>           
+            <Grid item xs={1}>
+              <IconButton onClick={() => navigator.clipboard.writeText(selectedSite.password)}>
+                <ContentCopyIcon sx={{ fontSize: 15}}></ContentCopyIcon>
+              </IconButton>
+            </Grid>
+          </Grid>
+        </Box>
       : null }
       {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
         You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
