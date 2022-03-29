@@ -35,7 +35,7 @@ app.put('/changePassword', vault.changePassword)
 app.get('/password', vault.getPassword)
 app.get('/passwords', vault.getAllPasswords)
 
-app.get('/generatePassword', passwordGenerator.createPassword)
+app.post('/generatePassword', passwordGenerator.createPassword)
 
 app.listen(3001, () => 
     console.log("Server listening on 3001")
