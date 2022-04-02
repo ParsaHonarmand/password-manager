@@ -22,10 +22,18 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     axios
-      .post("http://localhost:3001/login", {
-        email: data.get("email"),
-        password: data.get("password"),
-      })
+      .post(
+        "http://localhost:3001/login",
+        {
+          email: data.get("email"),
+          password: data.get("password"),
+        },
+        {
+          headers: {
+            token: "JWT_TOKEN_HERE",
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
       })
@@ -36,7 +44,6 @@ export default function SignIn() {
 
   return (
     <>
-      {/* <TopBar /> */}
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
