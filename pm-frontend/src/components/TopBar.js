@@ -78,6 +78,9 @@ export default function TopBar() {
               <ListItemButton component="a" href="/generator">
                 <ListItemText primary="Password Generator" />
               </ListItemButton>
+              <ListItemButton component="a" href="/about">
+                <ListItemText primary="About" />
+              </ListItemButton>
             </List>
           </Drawer>
         </React.Fragment>
