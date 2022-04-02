@@ -6,6 +6,7 @@ import Vault from "./Vault";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import TopBar from "./components/TopBar";
+import About from "./pages/About";
 import Generator from "./Generator";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -19,6 +20,7 @@ ReactDOM.render(
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/generator" element={<Generator />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   </Router>,
   document.getElementById("root")
