@@ -27,6 +27,11 @@ export default function TopBar() {
   // TODO: hardcoded
   const [loggedIn, setLoggedIn] = useState(true);
 
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.clear();
+  };
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -61,7 +66,7 @@ export default function TopBar() {
           </Typography>
 
           {loggedIn ? (
-            <Button color="inherit" onClick={() => setLoggedIn(false)}>
+            <Button color="inherit" onClick={handleLogout}>
               Log out
             </Button>
           ) : (
