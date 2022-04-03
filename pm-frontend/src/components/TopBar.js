@@ -10,19 +10,22 @@ import {
   ListItemText,
   ListItemButton,
   List,
-//  Link,
+  //  Link,
 } from "@mui/material";
-// import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
 
 import { FiMenu } from "react-icons/fi";
 
 export default function TopBar() {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+
+  // TODO: hardcoded
+  const [loggedIn, setLoggedIn] = useState(true);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -52,11 +55,20 @@ export default function TopBar() {
             align="center"
             sx={{ flexGrow: 1 }}
           >
-            <Button color = "inherit" href="/">Password Manager</Button>
+            <Button color="inherit" href="/">
+              Password Manager
+            </Button>
           </Typography>
 
-          <Button color="inherit" href="/signin">Login</Button>
-
+          {loggedIn ? (
+            <Button color="inherit" onClick={() => setLoggedIn(false)}>
+              Log out
+            </Button>
+          ) : (
+            <Button color="inherit" href="/signin">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
 

@@ -12,35 +12,47 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios
+    const response = await axios
       .post(
-        "http://localhost:3001/login",
+        // "http://localhost:3001/login",
+        "http://blogservice.herokuapp.com/api/login",
         {
           email: data.get("email"),
           password: data.get("password"),
-        },
-        {
-          headers: {
-            token: "JWT_TOKEN_HERE",
-          },
         }
+        // {
+        //   headers: {
+        //     token: "JWT_TOKEN_HERE",
+        //   },
+        // }
       )
-      .then((res) => {
-        console.log(res.data);
-      })
+      // .then((res) => {
+      //   console.log(res.data);
+      // })
       .catch((error) => {
-        console.log(error);
+        console.log("error");
       });
+    localStorage.setItem("user", response.data);
+    console.log(response.data);
   };
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
+  }, []);
 
   return (
     <>
