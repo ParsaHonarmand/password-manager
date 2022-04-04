@@ -12,32 +12,52 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
+  const navigate = useNavigate();
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    // example of how to hit the api endpoint.
-    // should use post here and send the email/password instead
-    try {
-      const res = await axios.get(apiEndpoint + '/')
-      alert(res.data.message)
-    } catch(error) {
-      console.log("Failed to login")
-      console.log(error)
-    }
+    const response = await axios
+      .post(
+        // "http://localhost:3001/login",
+        "http://blogservice.herokuapp.com/api/login",
+        {
+          email: data.get("email"),
+          password: data.get("password"),
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("authToken", res.data.token);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+    // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
+    console.log("Setting localStorage");
+    localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
+    console.log(response.data);
   };
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
+  }, []);
 
   return (
     <>
-      {/* <TopBar /> */}
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -73,6 +93,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -83,6 +105,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -103,7 +127,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

@@ -1,46 +1,38 @@
 import * as React from "react";
-// import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-// import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
-// import Link from "@mui/material/Link";
-// import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-// import Container from "@mui/material/Container";
-// import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import { useState } from "react";
 
 export default function PasswordAdder() {
+  const [submitted, setSubmitted] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitted(!submitted);
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    setTimeout(
+      console.log({
+        email: data.get("website"),
+        password: data.get("password"),
+      }),
+      3000
+    );
   };
 
   return (
     <Box
       sx={{
-        marginTop: 8,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <Typography
-        variant="h4"
-        component="div"
-        gutterBottom
-        style={{ color: "#404040" }}
-      >
-        Save a password:
-      </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
@@ -51,6 +43,14 @@ export default function PasswordAdder() {
           name="website"
           autoComplete="website"
           autoFocus
+        />
+        <TextField
+          margin="normal"
+          fullWidth
+          name="username"
+          label="Username"
+          id="username"
+          autoComplete="username"
         />
         <TextField
           margin="normal"
@@ -66,6 +66,12 @@ export default function PasswordAdder() {
           Save login
         </Button>
       </Box>
+      {submitted && (
+        <>
+          <Typography>Encrypting...</Typography>
+          <CircularProgress />
+        </>
+      )}
     </Box>
   );
 }
