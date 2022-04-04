@@ -13,11 +13,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState();
+  const navigate = useNavigate();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   const handleSubmit = async (event) => {
@@ -31,19 +33,16 @@ export default function SignIn() {
           email: data.get("email"),
           password: data.get("password"),
         }
-        // {
-        //   headers: {
-        //     token: "JWT_TOKEN_HERE",
-        //   },
-        // }
       )
-      // .then((res) => {
-      //   console.log(res.data);
-      // })
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("authToken", JSON.stringify(res.data));
+        navigate("/");
+      })
       .catch((error) => {
         console.log("error");
       });
-    localStorage.setItem("user", response.data);
+    localStorage.setItem("user", response.data.token); // TODO: response.data.token is correct format?
     console.log(response.data);
   };
 

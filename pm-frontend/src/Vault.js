@@ -23,6 +23,7 @@ export default function PasswordGetter() {
   const [revealed, setRevealed] = useState(false);
   const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [authToken, setAuthToken] = useState();
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -32,6 +33,7 @@ export default function PasswordGetter() {
       setUser(foundUser);
       setLoggedIn(true);
     }
+    setAuthToken(localStorage.getItem("authToken"));
   }, []);
 
   const revealPassword = (site) => {
@@ -44,7 +46,7 @@ export default function PasswordGetter() {
       },
       {
         headers: {
-          token: "JWT_TOKEN_HERE",
+          token: authToken,
         },
       }
     );
