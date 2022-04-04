@@ -13,28 +13,34 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Tooltip } from "@mui/material";
 import { Help as HelpIcon } from "@mui/icons-material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post(
-      "http://localhost:3001/signup",
-      {
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
-        passphrase: data.get("passphrase"),
-      },
-      {
-        headers: {
-          token: "JWT_TOKEN_HERE",
+    axios
+      .post(
+        "http://localhost:3001/signup",
+        {
+          firstName: data.get("firstName"),
+          lastName: data.get("lastName"),
+          email: data.get("email"),
+          password: data.get("password"),
+          passphrase: data.get("passphrase"),
         },
-      }
-    );
+        {
+          headers: {
+            token: "JWT_TOKEN_HERE",
+          },
+        }
+      )
+      .then((res) => {
+        if ((res.data = "success")) navigate("/");
+      });
   };
 
   return (
@@ -129,6 +135,7 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
+              // href="/"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up

@@ -10,19 +10,38 @@ import {
   ListItemText,
   ListItemButton,
   List,
-//  Link,
+  //  Link,
 } from "@mui/material";
-// import { Link as RouterLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { FiMenu } from "react-icons/fi";
 
 export default function TopBar() {
-  const [state, setState] = React.useState({
+  const navigate = useNavigate();
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
+
+  // TODO: hardcoded
+  const [loggedIn, setLoggedIn] = useState(true);
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.clear();
+    navigate("/");
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -52,11 +71,20 @@ export default function TopBar() {
             align="center"
             sx={{ flexGrow: 1 }}
           >
-            <Button color = "inherit" href="/">Password Manager</Button>
+            <Button color="inherit" href="/">
+              Password Manager
+            </Button>
           </Typography>
 
-          <Button color="inherit" href="/signin">Login</Button>
-
+          {loggedIn ? (
+            <Button color="inherit" onClick={handleLogout}>
+              Log out
+            </Button>
+          ) : (
+            <Button color="inherit" href="/signin">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -77,6 +105,9 @@ export default function TopBar() {
               </ListItemButton>
               <ListItemButton component="a" href="/generator">
                 <ListItemText primary="Password Generator" />
+              </ListItemButton>
+              <ListItemButton component="a" href="/about">
+                <ListItemText primary="About" />
               </ListItemButton>
             </List>
           </Drawer>

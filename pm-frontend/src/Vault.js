@@ -1,6 +1,7 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PasswordAdder from "./components/PasswordAdder";
+import LoginPrompt from "./components/LoginPrompt";
 import {
   TextField,
   Autocomplete,
@@ -18,6 +19,7 @@ import {
   //ListItemAvatar,
   //Avatar,
   //InputAdornment,
+  Stack,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -31,6 +33,9 @@ export default function PasswordGetter() {
   const [revealed, setRevealed] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
   const [showDeletePop, setShowDeletePop] = useState(false);
+  const [user, setUser] = useState();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [authToken, setAuthToken] = useState();
 
   const popupStyle = {
     position: "absolute",
@@ -47,6 +52,17 @@ export default function PasswordGetter() {
     flexDirection: "column",
   };
 
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      console.log("Found user", foundUser);
+      setUser(foundUser);
+      setLoggedIn(true);
+    }
+    setAuthToken(localStorage.getItem("authToken"));
+  }, []);
+
   const revealPassword = (site) => {
     console.log("Revealing " + site.label);
     setRevealed(true);
@@ -57,7 +73,7 @@ export default function PasswordGetter() {
       },
       {
         headers: {
-          token: "JWT_TOKEN_HERE",
+          token: authToken,
         },
       }
     );
@@ -161,6 +177,8 @@ export default function PasswordGetter() {
         </Box>
       </Modal>
 
+      <LoginPrompt open={!loggedIn} />
+
       <Typography
         variant="h4"
         component="div"
@@ -200,7 +218,6 @@ export default function PasswordGetter() {
           <TextField {...params} label="Login" variant="standard" />
         )}
       />
-
       <Box
         sx={{
           display: "flex",
@@ -226,7 +243,6 @@ export default function PasswordGetter() {
           Delete This Entry
         </Button>
       </Box>
-
       {revealed ? (
         <Box alignItems={"center"} sx={{ ml: "auto", mr: "auto", mt: 4 }}>
           <Grid container spacing={1} columns={4}>
