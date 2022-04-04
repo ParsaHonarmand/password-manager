@@ -18,6 +18,7 @@ export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState();
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
