@@ -5,10 +5,12 @@ async function authMiddleware(req, res, next) {
     console.log("In authentication middleware")
     
     // Extract the token from the request headers
-    const token = req.headers['x-authentication-token']
-    if (token == null)
+    const bearerHeader = req.headers['authorization']
+    if (bearerHeader == null)
         return res.status(401).send('Unauthorized') 
 
+    const token = bearerHeader.replace("Bearer ","");
+    console.log(token)
     //Verify the input token 
     jwt.verify(token, process.env.JWT_SECRET, (err, jwtPayload) => {
         if (err) {

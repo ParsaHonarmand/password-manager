@@ -12,23 +12,31 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SignIn() {
   const apiEndpoint = "http://localhost:3001"
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
+    
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
+  
+    let reqBody = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+    }
     // example of how to hit the api endpoint.
     // should use post here and send the email/password instead
     try {
-      const res = await axios.get(apiEndpoint + '/')
-      alert(res.data.message)
+      const res = await axios.post(apiEndpoint + '/login', reqBody)
+      Cookies.set('token', res.data.token)
+      navigate('/vault');
+      localStorage.setItem("email", reqBody.email)
     } catch(error) {
       console.log("Failed to login")
       console.log(error)

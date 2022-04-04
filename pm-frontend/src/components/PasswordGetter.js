@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   Autocomplete,
@@ -7,9 +7,45 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import axios from "axios";
+import Cookies from 'js-cookie'
 
 export default function PasswordGetter() {
-  const [validInput, setValidInput] = useState("");
+  const apiEndpoint = "http://localhost:3001"
+  const [validInput, setValidInput] = useState({});
+  const [passwordShowing, setPasswordShowing] = useState(false)
+  const [passwords, setPasswords] = useState([])    
+  const [passphraseEntered, setPassphraseEntered] = useState(false)
+  useEffect(() => {
+    async function fetchPasswords() {
+      try {
+        const res = await axios.get(apiEndpoint + "/passwords", {
+          headers: {
+            'Authorization': `Bearer ${Cookies.get('token')}`
+          }
+        })
+        setPasswords(res.data)
+      } catch (error) {
+        console.log("Failed to get all passwords")
+        console.log(error)
+      }
+    }
+    fetchPasswords()
+  }, []);
+
+  const showPassword = () => {
+    setPasswordShowing(!passwordShowing)
+  }
+
+  const onTagsChange = (event, value) => {
+    if (value === null) {
+      setValidInput({})
+      setPasswordShowing(false)
+    } else {
+      setValidInput(value)
+    }
+  }
   return (
     <Box
       sx={{
@@ -30,26 +66,57 @@ export default function PasswordGetter() {
       <Autocomplete
         // disablePortal
         id="logins"
-        options={savedLogins}
+        options={passwords}
+        isOptionEqualToValue={(option, value) => option.label === value.label}
         sx={{ width: 300 }}
+        onChange={onTagsChange}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Login"
             variant="standard"
-            onChange={(event) => {
-              setValidInput(event.target.value);
-              console.log(event.target.value);
-            }}
           />
         )}
       />
       <Button
-        variant={validInput ? "contained" : "outlined"}
+        variant={Object.keys(validInput).length !== 0 ? "contained" : "outlined"}
         sx={{ mt: 2, mb: 2 }}
+        onClick={showPassword}
+        disabled={Object.keys(validInput).length == 0}
       >
         Show Password
       </Button>
+      {passwordShowing &&
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            p: 1,
+            m: 1,
+            bgcolor: "darkcyan",
+            borderRadius: 1,
+            width: "50%",
+            margin: "auto",
+            overflowY: "scroll"
+          }}
+        >
+          <Typography
+            variant="h5"
+            component="div"
+            gutterBottom
+            style={{ 
+              color: "#fff", 
+              padding: "10px",
+              margin: "auto"
+            }}
+          >
+            {validInput.password}
+            <Button color="inherit">
+              <ContentCopyIcon onClick={() => {navigator.clipboard.writeText(validInput.password)}} />
+            </Button>
+          </Typography>
+        </Box>
+      }
     </Box>
   );
 }
