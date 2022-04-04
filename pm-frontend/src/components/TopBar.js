@@ -12,7 +12,7 @@ import {
   List,
   //  Link,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { FiMenu } from "react-icons/fi";
@@ -25,6 +25,14 @@ export default function TopBar() {
     bottom: false,
     right: false,
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
 
   // TODO: hardcoded
   const [loggedIn, setLoggedIn] = useState(true);

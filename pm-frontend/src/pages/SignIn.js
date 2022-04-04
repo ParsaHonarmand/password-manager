@@ -36,13 +36,15 @@ export default function SignIn() {
       )
       .then((res) => {
         console.log(res.data);
-        localStorage.setItem("authToken", JSON.stringify(res.data));
+        localStorage.setItem("authToken", res.data.token);
         navigate("/");
       })
       .catch((error) => {
         console.log("error");
       });
-    localStorage.setItem("user", response.data.token); // TODO: response.data.token is correct format?
+    // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
+    console.log("Setting localStorage");
+    localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
     console.log(response.data);
   };
 

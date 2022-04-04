@@ -27,14 +27,6 @@ export default function LoginPrompt(props) {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Please <a href="/signin">log in</a> to use the website
-            <Button
-              onClick={() => {
-                const user = JSON.stringify({ name: "Tim" });
-                localStorage.setItem("user", user);
-              }}
-            >
-              Set localStorage (DEV)
-            </Button>
           </Typography>
         </Box>
       </Modal>
