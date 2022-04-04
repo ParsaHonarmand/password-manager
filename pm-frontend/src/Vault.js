@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PasswordAdder from "./components/PasswordAdder";
 import LoginPrompt from "./components/LoginPrompt";
 import {
@@ -21,9 +21,18 @@ export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
   const [selectedSite, setSelectedSite] = useState();
   const [revealed, setRevealed] = useState(false);
+  const [user, setUser] = useState();
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  // TODO: hardcoded
-  const loggedIn = true;
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      console.log("Found user", foundUser);
+      setUser(foundUser);
+      setLoggedIn(true);
+    }
+  }, []);
 
   const revealPassword = (site) => {
     console.log("Revealing " + site.label);
@@ -79,7 +88,7 @@ export default function PasswordGetter() {
         alignItems: "center",
       }}
     >
-      <LoginPrompt open={loggedIn} />;
+      <LoginPrompt open={!loggedIn} />;
       <PasswordAdder sx={{ mb: 2 }} />
       <Typography
         variant="h4"
