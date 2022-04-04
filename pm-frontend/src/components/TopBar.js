@@ -13,10 +13,12 @@ import {
   //  Link,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { FiMenu } from "react-icons/fi";
 
 export default function TopBar() {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -30,6 +32,7 @@ export default function TopBar() {
   const handleLogout = () => {
     setLoggedIn(false);
     localStorage.clear();
+    navigate("/");
   };
 
   const toggleDrawer = (anchor, open) => (event) => {

@@ -88,7 +88,7 @@ export default function PasswordGetter() {
         alignItems: "center",
       }}
     >
-      <LoginPrompt open={!loggedIn} />;
+      <LoginPrompt open={!loggedIn} />
       <PasswordAdder sx={{ mb: 2 }} />
       <Typography
         variant="h4"
