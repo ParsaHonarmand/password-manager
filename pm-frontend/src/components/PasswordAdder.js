@@ -28,21 +28,11 @@ export default function PasswordAdder() {
   return (
     <Box
       sx={{
-        marginTop: 8,
-        marginBottom: 8,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      <Typography
-        variant="h4"
-        component="div"
-        gutterBottom
-        style={{ color: "#404040" }}
-      >
-        Save a password:
-      </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"

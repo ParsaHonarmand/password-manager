@@ -8,11 +8,12 @@ import {
   Grid,
   Typography,
   Button,
+  Modal,
   //List,
   //ListItemButton,
   //ListItemText,
   IconButton,
-  Stack,
+  //Stack,
   //ListItem,
   //ListItemAvatar,
   //Avatar,
@@ -21,12 +22,30 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CloseIcon from '@mui/icons-material/Close';
 const axios = require("axios");
 
 export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
   const [selectedSite, setSelectedSite] = useState();
   const [revealed, setRevealed] = useState(false);
+  const [showEditPop, setShowEditPop] = useState(false);
+  const [showDeletePop, setShowDeletePop] = useState(false);
+
+  const popupStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    display: "flex",
+    justifyContent: 'flex-end',
+    flexDirection: "column"
+  };
 
   const revealPassword = (site) => {
     console.log("Revealing " + site.label);
@@ -59,7 +78,7 @@ export default function PasswordGetter() {
     );
   };
 
-  const editEntry = (site) => {
+/*   const editEntry = (site) => {
     console.log("Editing " + site.label);
     axios.post(
       "http://localhost:3001/passwords/delete",
@@ -72,7 +91,7 @@ export default function PasswordGetter() {
         },
       }
     );
-  };
+  }; */
 
   return (
     <Box
@@ -82,7 +101,61 @@ export default function PasswordGetter() {
         alignItems: "center",
       }}
     >
+      <Typography
+        variant="h4"
+        component="div"
+        gutterBottom
+        sx={{ color: "#404040", mt: 5 }}
+      >
+        Save a password:
+      </Typography>
+
       <PasswordAdder sx={{ mb: 2 }} />
+
+      <Modal
+        open={showEditPop}        
+      >
+        <Box sx={popupStyle}>
+
+          <IconButton color="primary" style={{ marginLeft: "auto" }} onClick={ () => setShowEditPop(false)}>
+            <CloseIcon/>
+          </IconButton>
+          <Typography
+          variant="h4"
+          component="div"
+          gutterBottom
+          sx={{ color: "#404040", mt: 1 }}
+          >
+            Edit this entry:
+          </Typography>
+
+          <PasswordAdder/>
+
+        </Box>
+      </Modal>
+
+      <Modal
+        open={showDeletePop}
+      >
+        <Box sx={popupStyle} alignItems="center">
+                <Typography
+                variant="h5"
+                component="div"
+                gutterBottom
+                style={{ color: "#404040" }}
+              >
+                Are you sure you want to delete this entry?
+              </Typography>             
+
+              <Button color ="primary" onClick={ () => {deleteEntry(selectedSite); setShowDeletePop(false)}}>
+                Yes
+              </Button>
+
+              <Button color="error" onClick={ () => setShowDeletePop(false)}>
+                No
+              </Button>
+            </Box>
+      </Modal>
 
       <Typography
         variant="h4"
@@ -109,11 +182,11 @@ export default function PasswordGetter() {
           <Box component="li" {...props}>
             {option.label}
             <Box sx={{marginLeft: "auto"}}>
-              <IconButton color="primary" onClick={ () => editEntry(option)}>
+              <IconButton color="primary" onClick={ () => setShowEditPop(true)}>
                 <EditIcon/>
               </IconButton>
 
-              <IconButton color ="error" onClick={ () => deleteEntry(option)}>
+              <IconButton color ="error" onClick={ () => setShowDeletePop(true)}>
                 <DeleteIcon/>
               </IconButton>
             </Box>
@@ -145,7 +218,7 @@ export default function PasswordGetter() {
         </Button>
 
         <Button
-          onClick={ () => deleteEntry(selectedSite)}
+          onClick={ () => setShowDeletePop(true)}
           disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2 }}
