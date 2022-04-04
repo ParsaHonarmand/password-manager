@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 export default function SignIn() {
-  const apiEndpoint = "http://localhost:3001"
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
