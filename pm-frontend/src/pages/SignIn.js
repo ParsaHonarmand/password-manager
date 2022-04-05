@@ -38,14 +38,14 @@ export default function SignIn() {
       const res = await axios.post(apiEndpoint + '/login', reqBody)
       // http://blogservice.herokuapp.com/api/login
       // Cookies.set('token', res.data.token)
-      // navigate("/");
       // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
       console.log("Setting localStorage");
       console.log(res.data);
       localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
       localStorage.setItem("email", reqBody.email)
       localStorage.setItem("authToken", res.data.token);
-      navigate('/vault');
+      navigate("/");
+      // navigate('/vault');
     } catch(error) {
       console.log("Failed to login")
       console.log(error)

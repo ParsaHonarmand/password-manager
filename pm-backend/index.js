@@ -45,5 +45,3 @@ app.post('/generatePassword', passwordGenerator.createPassword)
 app.listen(port, () => 
     console.log("Server listening on 3001")
 )
-
-app.listen(3001, () => console.log("Server listening on 3001"));
