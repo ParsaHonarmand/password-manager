@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // middleware function to handle JWT verification for updating users and getting users
 async function authMiddleware(req, res, next) { 
@@ -28,5 +28,5 @@ async function authMiddleware(req, res, next) {
 }
 
 module.exports = {
-    authMiddleware
-}
+  authMiddleware,
+};
