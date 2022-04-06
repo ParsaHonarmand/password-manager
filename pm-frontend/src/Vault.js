@@ -36,6 +36,7 @@ export default function PasswordGetter() {
   const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState();
+  const [revealedPass, setRevealedPass] = useState();
 
   const popupStyle = {
     position: "absolute",
@@ -63,35 +64,44 @@ export default function PasswordGetter() {
     setAuthToken(localStorage.getItem("authToken"));
   }, []);
 
-  const revealPassword = (site) => {
+  const revealPassword = async (site) => {
     console.log("Revealing " + site.label);
     setRevealed(true);
-    axios.post(
-      "http://localhost:3001/passwords/reveal",
-      {
-        requestedSite: site,
-      },
-      {
-        headers: {
-          token: authToken,
+    try {
+      const res = await axios.get(
+        "http://localhost:3001/passwords/reveal",
+        {
+          requestedSite: site,
         },
-      }
-    );
+        {
+          headers: {
+            token: authToken,
+          },
+        }
+      );
+      setRevealedPass(res.data.password);
+    } catch (error) {
+      console.log("Error");
+    }
   };
 
-  const deleteEntry = (site) => {
+  const deleteEntry = async (site) => {
     console.log("Deleting " + site.label);
-    axios.post(
-      "http://localhost:3001/passwords/delete",
-      {
-        requestedSite: site,
-      },
-      {
-        headers: {
-          token: "JWT_TOKEN_HERE",
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/passwords/delete",
+        {
+          requestedSite: site,
         },
-      }
-    );
+        {
+          headers: {
+            token: authToken,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /*   const editEntry = (site) => {
@@ -281,10 +291,6 @@ export default function PasswordGetter() {
           </Grid>
         </Box>
       ) : null}
-      {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
-        You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
-        {savedLogins.map((login) => LoginListItem(login.label, login.passwor))}
-      </List> */}
     </Box>
   );
 }
