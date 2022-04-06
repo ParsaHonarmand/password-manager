@@ -37,7 +37,7 @@ app.post('/signup', authenticate.signUp)
 app.post('/addPassword', vault.addPassword)
 app.delete('/removePassword', vault.removePassword)
 app.put('/changePassword', vault.changePassword)
-app.get('/password', vault.getPassword)
+app.get('/password', authMiddleware.authMiddleware, vault.getPassword)
 app.get('/passwords', authMiddleware.authMiddleware, vault.getAllPasswords)
 
 app.post('/generatePassword', passwordGenerator.createPassword)

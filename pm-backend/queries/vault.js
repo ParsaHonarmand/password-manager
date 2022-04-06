@@ -25,14 +25,12 @@ const getPassword = (request, response) => {
     // request contains the name of the website that we want a password for
     // get password from db, and I think we decrypt here before sending it to the 
     // frontend? 
-}
-const getAllPasswords = (request, response) => {
-    // get the list of encrypted passwords from the DB
-    // decrypt each password and return to the frontend
     let email = request.userEmail
+    let requestedPassword = request.query.label
     const db = mongoClient.db("password-manager-db")
-
-    db.collection("users").findOne({ email: email }, async (err, result) =>{
+    console.log(requestedPassword)
+    console.log(email)
+    db.collection("users").findOne({ email: email }, (err, result) => {
         if (err) 
             response.status(500).send("An error has occured")
 
@@ -40,8 +38,35 @@ const getAllPasswords = (request, response) => {
             return response.status(401).send("Incorrect email/password")
         }
         
-        console.log("Got all passwords for " + email)
-        return response.status(200).send(result.passwords)
+        for (let index = 0; index < result.passwords.length; index++) {
+            const item = result.passwords[index];
+            if (item.label.toLowerCase() === requestedPassword.toLowerCase()) {
+                console.log("Got password details for " + email)
+                return response.status(200).send(item)
+            }
+        }
+        return response.status(304).send("No password found")
+    })
+}
+const getAllPasswords = (request, response) => {
+    // get the list of encrypted passwords from the DB
+    // decrypt each password and return to the frontend
+    let email = request.userEmail
+    const db = mongoClient.db("password-manager-db")
+
+    db.collection("users").findOne({ email: email }, (err, result) => {
+        if (err) 
+            response.status(500).send("An error has occured")
+
+        if (result === null) {
+            return response.status(401).send("Incorrect email/password")
+        }
+        let passwordLabels = []
+        result.passwords.forEach(item => {
+            passwordLabels.push(item.username)
+        });
+        console.log("Got all password labels for " + email)
+        return response.status(200).send(passwordLabels)
     })
 }
 
