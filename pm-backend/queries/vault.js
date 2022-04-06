@@ -29,6 +29,20 @@ const getPassword = (request, response) => {
 const getAllPasswords = (request, response) => {
     // get the list of encrypted passwords from the DB
     // decrypt each password and return to the frontend
+    let email = request.userEmail
+    const db = mongoClient.db("password-manager-db")
+
+    db.collection("users").findOne({ email: email }, async (err, result) =>{
+        if (err) 
+            response.status(500).send("An error has occured")
+
+        if (result === null) {
+            return response.status(401).send("Incorrect email/password")
+        }
+        
+        console.log("Got all passwords for " + email)
+        return response.status(200).send(result.passwords)
+    })
 }
 
 
