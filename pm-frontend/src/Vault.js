@@ -29,14 +29,15 @@ const axios = require("axios");
 
 export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
-  const [selectedSite, setSelectedSite] = useState();
-  const [revealed, setRevealed] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
   const [showDeletePop, setShowDeletePop] = useState(false);
   const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState();
+
   const [revealedPass, setRevealedPass] = useState();
+  const [selectedSite, setSelectedSite] = useState();
+  const [revealed, setRevealed] = useState(false);
 
   const popupStyle = {
     position: "absolute",
@@ -66,7 +67,6 @@ export default function PasswordGetter() {
 
   const revealPassword = async (site) => {
     console.log("Revealing " + site.label);
-    setRevealed(true);
     try {
       const res = await axios.get(
         "http://localhost:3001/passwords/reveal",
@@ -80,6 +80,7 @@ export default function PasswordGetter() {
         }
       );
       setRevealedPass(res.data.password);
+      setRevealed(true);
     } catch (error) {
       console.log("Error");
     }
@@ -277,7 +278,7 @@ export default function PasswordGetter() {
               <Typography>Password:</Typography>
             </Grid>
             <Grid item xs={1}>
-              <Typography>{selectedSite.password}</Typography>
+              <Typography>{revealedPass}</Typography>
             </Grid>
             <Grid item xs={1}>
               <IconButton
