@@ -54,7 +54,9 @@ export default function About() {
           </Typography>
           <ul>
             <li>
-              <Typography>AES with block ? mode</Typography>
+              <Typography>
+                AES with block ? mode [Louis fill this in]
+              </Typography>
             </li>
             <li>
               <Typography>JWT to authenticate actions</Typography>
@@ -72,6 +74,13 @@ export default function About() {
               </Typography>
             </li>
           </ul>
+          <Typography>
+            We abided by the principle of least permissions. Whenever we were
+            implementing a feature, we limited the permissions required as much
+            as possible. For example, when a user wishes to retrieve a password
+            from a site, the backend only sends that one password, instead of
+            sending all of them.
+          </Typography>
         </Box>
       </Container>
     </>
