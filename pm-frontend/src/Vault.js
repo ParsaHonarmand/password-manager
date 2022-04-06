@@ -10,16 +10,7 @@ import {
   Typography,
   Button,
   Modal,
-  //List,
-  //ListItemButton,
-  //ListItemText,
   IconButton,
-  //Stack,
-  //ListItem,
-  //ListItemAvatar,
-  //Avatar,
-  //InputAdornment,
-  Stack,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -34,6 +25,7 @@ export default function PasswordGetter() {
   const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState();
+  const [savedSites, setSavedSites] = useState();
 
   const [revealedPass, setRevealedPass] = useState();
   const [selectedSite, setSelectedSite] = useState();
@@ -63,10 +55,42 @@ export default function PasswordGetter() {
       setLoggedIn(true);
     }
     setAuthToken(localStorage.getItem("authToken"));
+
+    async function getAllSites() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/sites",
+          {
+            headers: {
+              token: authToken,
+            },
+          }
+        );
+        setSavedSites(response.data.sites);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getAllSites();
+
+    // !testing only
+    // TODO: delete
+    setSavedSites([
+      "Google",
+      "Facebook",
+      "Instagram",
+      "Firefox",
+      "Snapchat",
+      "Reddit",
+      "D2L",
+      "ucalgary",
+      "Miniclip",
+      "Cool Math Games",
+    ])
   }, []);
 
   const revealPassword = async (site) => {
-    console.log("Revealing " + site.label);
+    console.log("Revealing " + site);
     try {
       const res = await axios.get(
         "http://localhost:3001/passwords/reveal",
@@ -87,7 +111,7 @@ export default function PasswordGetter() {
   };
 
   const deleteEntry = async (site) => {
-    console.log("Deleting " + site.label);
+    console.log("Deleting " + site);
     try {
       const response = await axios.delete(
         "http://localhost:3001/passwords/delete",
@@ -106,7 +130,7 @@ export default function PasswordGetter() {
   };
 
   /*   const editEntry = (site) => {
-    console.log("Editing " + site.label);
+    console.log("Editing " + site);
     axios.post(
       "http://localhost:3001/passwords/delete",
       {
@@ -203,8 +227,8 @@ export default function PasswordGetter() {
         autoHighlight={true}
         autoSelect={true}
         id="logins"
-        options={savedLogins}
-        getOptionLabel={(option) => option.label}
+        options={savedSites}
+        getOptionLabel={(option) => option}
         sx={{ width: 300 }}
         onChange={(event, value, reason) => {
           setValidInput(true);
@@ -213,7 +237,7 @@ export default function PasswordGetter() {
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
-            {option.label}
+            {option}
             <Box sx={{ marginLeft: "auto" }}>
               <IconButton color="primary" onClick={() => setShowEditPop(true)}>
                 <EditIcon />
@@ -296,15 +320,15 @@ export default function PasswordGetter() {
   );
 }
 
-const savedLogins = [
-  { label: "Google", password: "www.Google.com" },
-  { label: "Facebook", password: "www.Facebook.com" },
-  { label: "Instagram", password: "www.Instagram.com" },
-  { label: "Firefox", password: "www.Firefox.com" },
-  { label: "Snapchat", password: "www.Snapchat.com" },
-  { label: "Reddit", password: "www.Reddit.com" },
-  { label: "D2L", password: "www.D2L.com" },
-  { label: "ucalgary", password: "www.ucalgary.ca" },
-  { label: "Miniclip", password: "www.miniclip.com" },
-  { label: "Cool Math Games", password: "www.Cool Math Games.com" },
-];
+// const savedSites = [
+//   { label: "Google", password: "www.Google.com" },
+//   { label: "Facebook", password: "www.Facebook.com" },
+//   { label: "Instagram", password: "www.Instagram.com" },
+//   { label: "Firefox", password: "www.Firefox.com" },
+//   { label: "Snapchat", password: "www.Snapchat.com" },
+//   { label: "Reddit", password: "www.Reddit.com" },
+//   { label: "D2L", password: "www.D2L.com" },
+//   { label: "ucalgary", password: "www.ucalgary.ca" },
+//   { label: "Miniclip", password: "www.miniclip.com" },
+//   { label: "Cool Math Games", password: "www.Cool Math Games.com" },
+// ];
