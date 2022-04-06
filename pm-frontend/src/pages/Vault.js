@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import PasswordAdder from "./components/PasswordAdder";
-import LoginPrompt from "./components/LoginPrompt";
+import PasswordAdder from "../components/PasswordAdder";
+import LoginPrompt from "../components/LoginPrompt";
 import {
   TextField,
   Autocomplete,
