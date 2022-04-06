@@ -19,28 +19,26 @@ const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios
-      .post(
-        "http://localhost:3001/signup",
-        {
+    try {
+      const response = await axios
+        .post(apiEndpoint + "/signup", {
           firstName: data.get("firstName"),
           lastName: data.get("lastName"),
           email: data.get("email"),
           password: data.get("password"),
           passphrase: data.get("passphrase"),
-        },
-        {
-          headers: {
-            token: "JWT_TOKEN_HERE",
-          },
-        }
-      )
-      .then((res) => {
-        if ((res.data = "success")) navigate("/");
-      });
+        })
+        .then((res) => {
+          if ((res.data = "success")) navigate("/");
+        });
+      localStorage.setItem("user", response.data.token);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

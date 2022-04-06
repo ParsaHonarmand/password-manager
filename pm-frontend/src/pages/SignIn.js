@@ -22,30 +22,29 @@ export default function SignIn() {
   const navigate = useNavigate();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = await axios
-      .post(
-        // "http://localhost:3001/login",
-        "http://blogservice.herokuapp.com/api/login",
-        {
-          email: data.get("email"),
-          password: data.get("password"),
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("authToken", res.data.token);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-    // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
-    console.log("Setting localStorage");
-    localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
-    console.log(response.data);
+    try {
+      const response = await axios
+        .post(
+          // "http://localhost:3001/login",
+          "http://blogservice.herokuapp.com/api/login",
+          {
+            email: data.get("email"),
+            password: data.get("password"),
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          localStorage.setItem("authToken", res.data.token);
+          navigate("/"); // need to wait for response before redirecting
+        })
+      // localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -80,7 +79,7 @@ export default function SignIn() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleLogin}
             noValidate
             sx={{ mt: 1 }}
           >
