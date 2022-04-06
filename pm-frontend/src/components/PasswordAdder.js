@@ -6,23 +6,42 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+const axios = require("axios");
 
 export default function PasswordAdder() {
   const [submitted, setSubmitted] = useState(false);
+  const [authToken, setAuthToken] = useState();
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    setAuthToken(localStorage.getItem("authToken"));
+  }, []);
+
+  const addPassword = async (event) => {
     event.preventDefault();
-    setSubmitted(!submitted);
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    setTimeout(
-      console.log({
-        email: data.get("website"),
-        password: data.get("password"),
-      }),
-      3000
-    );
+    setSubmitted(!submitted);
+    try {
+      const res = await axios.post(
+        apiEndpoint + "/addPassword",
+        {
+          website: data.get("website"),
+          username: data.get("username"),
+          password: data.get("password"),
+        },
+        {
+          headers: {
+            token: authToken,
+          },
+        }
+      );
+      if (res.data.status === "success") {
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.log("Error adding password")
+    }
   };
 
   return (
@@ -33,7 +52,7 @@ export default function PasswordAdder() {
         alignItems: "center",
       }}
     >
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={addPassword} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
