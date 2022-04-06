@@ -38,12 +38,10 @@ app.post('/addPassword', vault.addPassword)
 app.delete('/removePassword', vault.removePassword)
 app.put('/changePassword', vault.changePassword)
 app.get('/password', vault.getPassword)
-app.get('/passwords', vault.getAllPasswords)
+app.get('/passwords', authMiddleware.authMiddleware, vault.getAllPasswords)
 
 app.post('/generatePassword', passwordGenerator.createPassword)
 
 app.listen(port, () => 
     console.log("Server listening on 3001")
 )
-
-app.listen(3001, () => console.log("Server listening on 3001"));

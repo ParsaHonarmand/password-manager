@@ -1,5 +1,5 @@
 import "./Generator.css";
-import PassGenerator from "./components/PassGenerator";
+import PassGenerator from "../components/PassGenerator";
 
 function Generator() {
   return (

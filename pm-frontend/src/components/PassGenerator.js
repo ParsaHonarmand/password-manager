@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Axios from 'axios'
+import axios from 'axios'
 import {
   Stack,
   Box,
@@ -10,26 +10,25 @@ import {
   FormControlLabel,
   Radio,
   Button,
-  IconButton,
+  IconButton
 } from "@mui/material";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 export default function PassGenerator() {
   const [passType, setPassType] = useState("word");
   const [length, setLength] = useState(12);
-  const [generatedPass, setGeneratedPass] = useState('')
+  const [password, setPassword] = React.useState("");
   
-  const generate = () => {
-    const obj = {
-      passType: passType, 
-      length: length
+  const generatePassword = async (event) => {
+    try {      
+      const res = await axios.post("http://localhost:3001/generatePassword", {length: length, type: passType})
+      setPassword(res.data)
+    } catch(error) {
+      console.log("Failed to generate password")
+      console.log(error)
     }
-    // console.log(obj)
-    Axios.get('http://localhost:3001/a').then((res) => {
-      // setPassType(res.data)
-      console.log(res.data)
-      setGeneratedPass(res.data)
-    })
   }
+
   const handleLengthChange = (event, newValue) => {
     setLength(newValue);
   };
@@ -82,27 +81,39 @@ export default function PassGenerator() {
       </Typography>
 
       <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" marginTop={3} marginBottom={3}>
-        <Button color="secondary" variant="contained" onClick={generate}>Generate</Button>        
-        <Button variant='contained' onClick={() => navigator.clipboard.writeText(generatedPass)}>copy</Button>
+        <Button color="secondary" variant="contained" onClick={generatePassword}>Generate</Button>
+        {password !== "" &&
+          <IconButton color="inherit">
+            <ContentCopyIcon onClick={() => {navigator.clipboard.writeText(password)}} />
+          </IconButton>
+        }
       </Stack>
 
-      <Typography
-        variant="h5"
-        component="div"
-        gutterBottom
-        style={{color: "#404040" }}
-      >
-        Generated Pass{passType}:
-      </Typography>
-
-      <Typography
-        variant="h6"
-        component="div"
-        gutterBottom
-        style={{ color: "#404040" }}
-      >
-        {generatedPass && ( <Typography mt={2} variant='h1'>{generatedPass}</Typography> )}
-      </Typography>
+      {password !== "" &&
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            p: 1,
+            m: 1,
+            bgcolor: "darkcyan",
+            borderRadius: 1,
+            width: "50%",
+            margin: "auto",
+            height: "fit-content",
+            overflowY: "auto"
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="div"
+            gutterBottom
+            style={{ color: "#fff", margin: "auto", padding: "5px" }}
+          >
+            <b>{password}</b>
+          </Typography>
+        </Box>
+      }
     </Box>
   );
 }

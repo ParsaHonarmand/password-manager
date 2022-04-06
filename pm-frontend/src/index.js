@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
-import Vault from "./Vault";
+import App from "./pages/App";
+import Vault from "./pages/Vault";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import TopBar from "./components/TopBar";
 import About from "./pages/About";
-import Generator from "./Generator";
+import Generator from "./pages/Generator";
+import TopBar from "./components/TopBar";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 

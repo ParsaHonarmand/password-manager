@@ -95,7 +95,7 @@ const login = async (request, response) => {
         if (isAuthenticated) {
             const token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
                 algorithm: "HS256",
-                expiresIn: process.env.JWT_EXPIRATION,
+                expiresIn: "60m",
             })
             console.log(`Login for ${result.email} successful!`)
             return response.status(200).send({token: token})

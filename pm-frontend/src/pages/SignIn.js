@@ -12,8 +12,9 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+// import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -25,25 +26,29 @@ export default function SignIn() {
   const handleLogin = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    // eslint-disable-next-line no-console
+  
+    let reqBody = {
+      email: data.get("email"),
+      password: data.get("password"),
+    }
+    // example of how to hit the api endpoint.
+    // should use post here and send the email/password instead
     try {
-      const response = await axios
-        .post(
-          // "http://localhost:3001/login",
-          "http://blogservice.herokuapp.com/api/login",
-          {
-            email: data.get("email"),
-            password: data.get("password"),
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-          localStorage.setItem("authToken", res.data.token);
-          navigate("/"); // need to wait for response before redirecting
-        })
-      // localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+      const res = await axios.post(apiEndpoint + '/login', reqBody)
+      // http://blogservice.herokuapp.com/api/login
+      // Cookies.set('token', res.data.token)
+      // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
+      console.log("Setting localStorage");
+      console.log(res.data);
+      localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
+      localStorage.setItem("email", reqBody.email)
+      localStorage.setItem("authToken", res.data.token);
+      navigate("/");
+      // navigate('/vault');
+    } catch(error) {
+      console.log("Failed to login")
+      console.log(error)
     }
   };
 
