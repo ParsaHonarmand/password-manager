@@ -87,14 +87,10 @@ export default function PasswordGetter() {
   }, [authToken]);
 
   const revealPassword = async (site) => {
-    console.log("Revealing " + site);
-    const reqBody = {
-      requestedSite: site,
-    };
+    console.log("Revealing " + site.label);
     try {
       const res = await axios.get(
-        `http://localhost:3001/password?label=${site}`,
-        reqBody,
+        `http://localhost:3001/password?label=${site.label}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -102,6 +98,7 @@ export default function PasswordGetter() {
         }
       );
       setRevealedPass(res.data.password);
+      setSelectedSite(res.data)
       setRevealed(true);
     } catch (error) {
       console.log("Error");
@@ -109,9 +106,9 @@ export default function PasswordGetter() {
   };
 
   const deleteEntry = async (site) => {
-    console.log("Deleting " + site);
+    console.log("Deleting " + site.label);
     const reqBody = {
-      requestedSite: site,
+      requestedSite: site.label,
     };
     try {
       const response = await axios.delete(
@@ -235,7 +232,7 @@ export default function PasswordGetter() {
         onChange={(event, value, reason) => {
           setValidInput(true);
           setRevealed(false);
-          setSelectedSite(value);
+          setSelectedSite({label: value, username: "", password: ""});
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
@@ -296,7 +293,7 @@ export default function PasswordGetter() {
               <Typography>Username:</Typography>
             </Grid>
             <Grid item xs={2}>
-              <Typography>N/A</Typography>
+              <Typography>{selectedSite.username}</Typography>
             </Grid>
 
             <Grid item xs={1}></Grid>
@@ -304,7 +301,7 @@ export default function PasswordGetter() {
               <Typography>Password:</Typography>
             </Grid>
             <Grid item xs={1}>
-              <Typography>{revealedPass}</Typography>
+              <Typography>{selectedSite.password}</Typography>
             </Grid>
             <Grid item xs={1}>
               <IconButton
