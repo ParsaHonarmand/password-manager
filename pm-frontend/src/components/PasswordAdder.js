@@ -1,28 +1,45 @@
-import * as React from "react";
 import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-  CircularProgress,
+  Box, Button, CircularProgress, TextField,
+  Typography
 } from "@mui/material";
-import { useState } from "react";
+import * as React from "react";
+import { useEffect, useState } from "react";
+const axios = require("axios");
 
 export default function PasswordAdder() {
   const [submitted, setSubmitted] = useState(false);
+  const [authToken, setAuthToken] = useState();
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    setAuthToken(localStorage.getItem("authToken"));
+  }, []);
+
+  const addPassword = async (event) => {
     event.preventDefault();
-    setSubmitted(!submitted);
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    setTimeout(
-      console.log({
-        email: data.get("website"),
-        password: data.get("password"),
-      }),
-      3000
-    );
+    setSubmitted(!submitted);
+    const reqBody = {
+      website: data.get("website"),
+      username: data.get("username"),
+      password: data.get("password"),
+    }
+    try {
+      const res = await axios.post(
+        apiEndpoint + "/addPassword",
+        reqBody,
+        {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.log("Error adding password")
+    }
   };
 
   return (
@@ -33,7 +50,7 @@ export default function PasswordAdder() {
         alignItems: "center",
       }}
     >
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={addPassword} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required

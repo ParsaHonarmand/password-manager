@@ -1,17 +1,7 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-// import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { List, ListItem } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 
 export default function About() {
   return (
@@ -54,7 +44,9 @@ export default function About() {
           </Typography>
           <ul>
             <li>
-              <Typography>AES with block ? mode</Typography>
+              <Typography>
+                AES with block ? mode [Louis fill this in]
+              </Typography>
             </li>
             <li>
               <Typography>JWT to authenticate actions</Typography>
@@ -72,6 +64,13 @@ export default function About() {
               </Typography>
             </li>
           </ul>
+          <Typography>
+            We abided by the principle of least permissions. Whenever we were
+            implementing a feature, we limited the permissions required as much
+            as possible. For example, when a user wishes to retrieve a password
+            from a site, the backend only sends that one password, instead of
+            sending all of them.
+          </Typography>
         </Box>
       </Container>
     </>

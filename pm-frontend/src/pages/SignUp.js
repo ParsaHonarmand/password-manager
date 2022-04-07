@@ -1,46 +1,45 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Tooltip } from "@mui/material";
 import { Help as HelpIcon } from "@mui/icons-material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Tooltip } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios
-      .post(
-        "http://localhost:3001/signup",
-        {
-          firstName: data.get("firstName"),
-          lastName: data.get("lastName"),
-          email: data.get("email"),
-          password: data.get("password"),
-          passphrase: data.get("passphrase"),
-        },
-        {
-          headers: {
-            token: "JWT_TOKEN_HERE",
-          },
-        }
-      )
-      .then((res) => {
-        if ((res.data = "success")) navigate("/");
-      });
+    const reqBody = {
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      password: data.get("password"),
+      passphrase: data.get("passphrase"),
+    };
+    try {
+      const response = await axios
+        .post(apiEndpoint + "/signup", reqBody)
+        .then((res) => {
+          if (res.status === 200) navigate("/");
+        });
+      localStorage.setItem("user", response.data.token);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

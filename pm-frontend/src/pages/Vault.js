@@ -1,41 +1,35 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import PasswordAdder from "../components/PasswordAdder";
-import LoginPrompt from "../components/LoginPrompt";
+import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
-  TextField,
   Autocomplete,
   Box,
-  Grid,
-  Typography,
   Button,
-  Modal,
-  //List,
-  //ListItemButton,
-  //ListItemText,
+  Grid,
   IconButton,
-  //Stack,
-  //ListItem,
-  //ListItemAvatar,
-  //Avatar,
-  //InputAdornment,
-  Stack,
+  Modal,
+  TextField,
+  Typography,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import CloseIcon from "@mui/icons-material/Close";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import LoginPrompt from "../components/LoginPrompt";
+import PasswordAdder from "../components/PasswordAdder";
 const axios = require("axios");
 
 export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
-  const [selectedSite, setSelectedSite] = useState();
-  const [revealed, setRevealed] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
   const [showDeletePop, setShowDeletePop] = useState(false);
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState();
+  const [savedSites, setSavedSites] = useState();
+
+  const [revealedPass, setRevealedPass] = useState();
+  const [selectedSite, setSelectedSite] = useState();
+  const [revealed, setRevealed] = useState(false);
 
   const popupStyle = {
     position: "absolute",
@@ -57,45 +51,88 @@ export default function PasswordGetter() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       console.log("Found user", foundUser);
-      setUser(foundUser);
+      // setUser(foundUser);
       setLoggedIn(true);
     }
     setAuthToken(localStorage.getItem("authToken"));
-  }, []);
 
-  const revealPassword = (site) => {
-    console.log("Revealing " + site.label);
-    setRevealed(true);
-    axios.post(
-      "http://localhost:3001/passwords/reveal",
-      {
-        requestedSite: site,
-      },
-      {
-        headers: {
-          token: authToken,
-        },
+    async function getAllSites() {
+      try {
+        const response = await axios.get("http://localhost:3001/passwords", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        setSavedSites(response.data);
+      } catch (error) {
+        console.log(error);
       }
-    );
+    }
+    getAllSites();
+
+    // !testing only
+    // TODO: delete
+    setSavedSites([
+      "Google",
+      "Facebook",
+      "Instagram",
+      "Firefox",
+      "Snapchat",
+      "Reddit",
+      "D2L",
+      "ucalgary",
+      "Miniclip",
+      "Cool Math Games",
+    ]);
+  }, [authToken]);
+
+  const revealPassword = async (site) => {
+    console.log("Revealing " + site);
+    const reqBody = {
+      requestedSite: site,
+    };
+    try {
+      const res = await axios.get(
+        `http://localhost:3001/password?label=${site}`,
+        reqBody,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      setRevealedPass(res.data.password);
+      setRevealed(true);
+    } catch (error) {
+      console.log("Error");
+    }
   };
 
-  const deleteEntry = (site) => {
-    console.log("Deleting " + site.label);
-    axios.post(
-      "http://localhost:3001/passwords/delete",
-      {
-        requestedSite: site,
-      },
-      {
-        headers: {
-          token: "JWT_TOKEN_HERE",
-        },
+  const deleteEntry = async (site) => {
+    console.log("Deleting " + site);
+    const reqBody = {
+      requestedSite: site,
+    };
+    try {
+      const response = await axios.delete(
+        "http://localhost:3001/removePassword",
+        reqBody,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log("Successfully deleted");
       }
-    );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /*   const editEntry = (site) => {
-    console.log("Editing " + site.label);
+    console.log("Editing " + site);
     axios.post(
       "http://localhost:3001/passwords/delete",
       {
@@ -192,8 +229,8 @@ export default function PasswordGetter() {
         autoHighlight={true}
         autoSelect={true}
         id="logins"
-        options={savedLogins}
-        getOptionLabel={(option) => option.label}
+        options={savedSites}
+        getOptionLabel={(option) => option}
         sx={{ width: 300 }}
         onChange={(event, value, reason) => {
           setValidInput(true);
@@ -202,7 +239,7 @@ export default function PasswordGetter() {
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
-            {option.label}
+            {option}
             <Box sx={{ marginLeft: "auto" }}>
               <IconButton color="primary" onClick={() => setShowEditPop(true)}>
                 <EditIcon />
@@ -267,7 +304,7 @@ export default function PasswordGetter() {
               <Typography>Password:</Typography>
             </Grid>
             <Grid item xs={1}>
-              <Typography>{selectedSite.password}</Typography>
+              <Typography>{revealedPass}</Typography>
             </Grid>
             <Grid item xs={1}>
               <IconButton
@@ -281,23 +318,19 @@ export default function PasswordGetter() {
           </Grid>
         </Box>
       ) : null}
-      {/* <List style={{ maxHeight: "400px", overflow: "auto" }}>
-        You can scroll to a specific cell by calling apiRef.current.scrollToIndexes()
-        {savedLogins.map((login) => LoginListItem(login.label, login.passwor))}
-      </List> */}
     </Box>
   );
 }
 
-const savedLogins = [
-  { label: "Google", password: "www.Google.com" },
-  { label: "Facebook", password: "www.Facebook.com" },
-  { label: "Instagram", password: "www.Instagram.com" },
-  { label: "Firefox", password: "www.Firefox.com" },
-  { label: "Snapchat", password: "www.Snapchat.com" },
-  { label: "Reddit", password: "www.Reddit.com" },
-  { label: "D2L", password: "www.D2L.com" },
-  { label: "ucalgary", password: "www.ucalgary.ca" },
-  { label: "Miniclip", password: "www.miniclip.com" },
-  { label: "Cool Math Games", password: "www.Cool Math Games.com" },
-];
+// const savedSites = [
+//   { label: "Google", password: "www.Google.com" },
+//   { label: "Facebook", password: "www.Facebook.com" },
+//   { label: "Instagram", password: "www.Instagram.com" },
+//   { label: "Firefox", password: "www.Firefox.com" },
+//   { label: "Snapchat", password: "www.Snapchat.com" },
+//   { label: "Reddit", password: "www.Reddit.com" },
+//   { label: "D2L", password: "www.D2L.com" },
+//   { label: "ucalgary", password: "www.ucalgary.ca" },
+//   { label: "Miniclip", password: "www.miniclip.com" },
+//   { label: "Cool Math Games", password: "www.Cool Math Games.com" },
+// ];

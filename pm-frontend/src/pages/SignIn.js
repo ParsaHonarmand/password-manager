@@ -1,64 +1,68 @@
-import * as React from "react";
-import axios from "axios";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Container from "@mui/material/Container";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
 // import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Cookies from 'js-cookie'
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import axios from "axios";
+import * as React from "react";
+import { useEffect, useState } from "react";
+// import Cookies from 'js-cookie'
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const navigate = useNavigate();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-  
+
     let reqBody = {
       email: data.get("email"),
       password: data.get("password"),
-    }
+    };
     // example of how to hit the api endpoint.
     // should use post here and send the email/password instead
     try {
-      const res = await axios.post(apiEndpoint + '/login', reqBody)
+      const res = await axios.post(apiEndpoint + "/login", reqBody);
       // http://blogservice.herokuapp.com/api/login
       // Cookies.set('token', res.data.token)
       // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
       console.log("Setting localStorage");
       console.log(res.data);
-      localStorage.setItem("user", JSON.stringify({ username: "Tim", id: 123 }));
-      localStorage.setItem("email", reqBody.email)
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username: "Tim", id: 123 })
+      );
+      localStorage.setItem("email", reqBody.email);
       localStorage.setItem("authToken", res.data.token);
       navigate("/");
       // navigate('/vault');
-    } catch(error) {
-      console.log("Failed to login")
-      console.log(error)
+    } catch (error) {
+      console.log("Failed to login");
+      console.log(error);
     }
   };
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
+      // const foundUser = JSON.parse(loggedInUser);
+      // setUser(foundUser);
+      navigate("/");
     }
-  }, []);
+  });
 
   return (
     <>
@@ -84,7 +88,7 @@ export default function SignIn() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleLogin}
             noValidate
             sx={{ mt: 1 }}
           >
