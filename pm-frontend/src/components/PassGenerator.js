@@ -1,18 +1,9 @@
-import React, { useState } from "react";
-import axios from 'axios'
-import {
-  Stack,
-  Box,
-  Typography,
-  Slider,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-  IconButton
-} from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {
+    Box, Button, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, Slider, Stack, Typography
+} from "@mui/material";
+import axios from 'axios';
+import React, { useState } from "react";
 
 export default function PassGenerator() {
   const [passType, setPassType] = useState("word");

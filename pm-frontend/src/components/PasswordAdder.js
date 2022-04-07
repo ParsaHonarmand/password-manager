@@ -1,12 +1,9 @@
-import * as React from "react";
 import {
-  Button,
-  TextField,
-  Typography,
-  Box,
-  CircularProgress,
+  Box, Button, CircularProgress, TextField,
+  Typography
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import * as React from "react";
+import { useEffect, useState } from "react";
 const axios = require("axios");
 
 export default function PasswordAdder() {

@@ -1,14 +1,11 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Box,
-  Typography,
-  Button,
-} from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {
+    Autocomplete,
+    Box, Button, TextField, Typography
+} from "@mui/material";
 import axios from "axios";
+import * as React from "react";
+import { useEffect, useState } from "react";
 // import Cookies from 'js-cookie'
 
 export default function PasswordGetter() {

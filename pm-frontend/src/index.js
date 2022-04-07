@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import TopBar from "./components/TopBar";
 import "./index.css";
+import About from "./pages/About";
 import App from "./pages/App";
-import Vault from "./pages/Vault";
+import Generator from "./pages/Generator";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import About from "./pages/About";
-import Generator from "./pages/Generator";
-import TopBar from "./components/TopBar";
+import Vault from "./pages/Vault";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 ReactDOM.render(
   <Router>

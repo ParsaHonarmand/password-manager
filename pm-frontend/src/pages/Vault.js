@@ -1,28 +1,28 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import PasswordAdder from "../components/PasswordAdder";
-import LoginPrompt from "../components/LoginPrompt";
+import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
-  TextField,
   Autocomplete,
   Box,
-  Grid,
-  Typography,
   Button,
-  Modal,
+  Grid,
   IconButton,
+  Modal,
+  TextField,
+  Typography,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import CloseIcon from "@mui/icons-material/Close";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import LoginPrompt from "../components/LoginPrompt";
+import PasswordAdder from "../components/PasswordAdder";
 const axios = require("axios");
 
 export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
   const [showDeletePop, setShowDeletePop] = useState(false);
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
   const [authToken, setAuthToken] = useState();
   const [savedSites, setSavedSites] = useState();
@@ -51,21 +51,18 @@ export default function PasswordGetter() {
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       console.log("Found user", foundUser);
-      setUser(foundUser);
+      // setUser(foundUser);
       setLoggedIn(true);
     }
     setAuthToken(localStorage.getItem("authToken"));
 
     async function getAllSites() {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/passwords",
-          {
-            headers: {
-              'Authorization': `Bearer ${authToken}`,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:3001/passwords", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
         setSavedSites(response.data);
       } catch (error) {
         console.log(error);
@@ -86,21 +83,21 @@ export default function PasswordGetter() {
       "ucalgary",
       "Miniclip",
       "Cool Math Games",
-    ])
-  }, []);
+    ]);
+  }, [authToken]);
 
   const revealPassword = async (site) => {
     console.log("Revealing " + site);
     const reqBody = {
       requestedSite: site,
-    }
+    };
     try {
       const res = await axios.get(
-        "http://localhost:3001/password?label=${site}",
+        `http://localhost:3001/password?label=${site}`,
         reqBody,
         {
           headers: {
-            'Authorization': `Bearer ${authToken}`,
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
@@ -115,17 +112,20 @@ export default function PasswordGetter() {
     console.log("Deleting " + site);
     const reqBody = {
       requestedSite: site,
-    }
+    };
     try {
       const response = await axios.delete(
         "http://localhost:3001/removePassword",
         reqBody,
         {
           headers: {
-            'Authorization': `Bearer ${authToken}`,
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
+      if (response.status === 200) {
+        console.log("Successfully deleted");
+      }
     } catch (error) {
       console.log(error);
     }

@@ -1,14 +1,12 @@
-import "./App.css";
-import * as React from "react";
+import LockIcon from "@mui/icons-material/Lock";
+import PasswordIcon from "@mui/icons-material/Password";
 import Button from "@mui/material/Button";
 //import Box from '@mui/material/Box'
 import { blueGrey } from "@mui/material/colors";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import LockIcon from "@mui/icons-material/Lock";
-import PasswordIcon from "@mui/icons-material/Password";
-import IconButton from "@mui/material/IconButton";
-import { textAlign } from "@mui/system";
+import * as React from "react";
+import "./App.css";
 
 function App() {
   return (
