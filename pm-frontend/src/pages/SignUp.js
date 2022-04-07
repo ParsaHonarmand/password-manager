@@ -33,7 +33,7 @@ export default function SignUp() {
           passphrase: data.get("passphrase"),
         })
         .then((res) => {
-          if ((res.data = "success")) navigate("/");
+          if (res.status === 200) navigate("/");
         });
       localStorage.setItem("user", response.data.token);
     } catch (error) {

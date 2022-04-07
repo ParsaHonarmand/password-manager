@@ -22,21 +22,22 @@ export default function PasswordAdder() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setSubmitted(!submitted);
+    const reqBody = {
+      website: data.get("website"),
+      username: data.get("username"),
+      password: data.get("password"),
+    }
     try {
       const res = await axios.post(
         apiEndpoint + "/addPassword",
-        {
-          website: data.get("website"),
-          username: data.get("username"),
-          password: data.get("password"),
-        },
+        reqBody,
         {
           headers: {
-            token: authToken,
+            'Authorization': `Bearer ${authToken}`,
           },
         }
       );
-      if (res.data.status === "success") {
+      if (res.status === 200) {
         setSubmitted(true);
       }
     } catch (error) {

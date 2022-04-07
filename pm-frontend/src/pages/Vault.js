@@ -59,14 +59,14 @@ export default function PasswordGetter() {
     async function getAllSites() {
       try {
         const response = await axios.get(
-          "http://localhost:3001/sites",
+          "http://localhost:3001/passwords",
           {
             headers: {
-              token: authToken,
+              'Authorization': `Bearer ${authToken}`,
             },
           }
         );
-        setSavedSites(response.data.sites);
+        setSavedSites(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -93,13 +93,13 @@ export default function PasswordGetter() {
     console.log("Revealing " + site);
     try {
       const res = await axios.get(
-        "http://localhost:3001/passwords/reveal",
+        "http://localhost:3001/password?label=${site}",
         {
           requestedSite: site,
         },
         {
           headers: {
-            token: authToken,
+            'Authorization': `Bearer ${authToken}`,
           },
         }
       );
@@ -114,13 +114,13 @@ export default function PasswordGetter() {
     console.log("Deleting " + site);
     try {
       const response = await axios.delete(
-        "http://localhost:3001/passwords/delete",
+        "http://localhost:3001/removePassword",
         {
           requestedSite: site,
         },
         {
           headers: {
-            token: authToken,
+            'Authorization': `Bearer ${authToken}`,
           },
         }
       );
