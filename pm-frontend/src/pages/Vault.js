@@ -91,12 +91,13 @@ export default function PasswordGetter() {
 
   const revealPassword = async (site) => {
     console.log("Revealing " + site);
+    const reqBody = {
+      requestedSite: site,
+    }
     try {
       const res = await axios.get(
         "http://localhost:3001/password?label=${site}",
-        {
-          requestedSite: site,
-        },
+        reqBody,
         {
           headers: {
             'Authorization': `Bearer ${authToken}`,
@@ -112,12 +113,13 @@ export default function PasswordGetter() {
 
   const deleteEntry = async (site) => {
     console.log("Deleting " + site);
+    const reqBody = {
+      requestedSite: site,
+    }
     try {
       const response = await axios.delete(
         "http://localhost:3001/removePassword",
-        {
-          requestedSite: site,
-        },
+        reqBody,
         {
           headers: {
             'Authorization': `Bearer ${authToken}`,

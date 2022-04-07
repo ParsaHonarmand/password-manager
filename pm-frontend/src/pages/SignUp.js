@@ -23,15 +23,16 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const reqBody = {
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      password: data.get("password"),
+      passphrase: data.get("passphrase"),
+    };
     try {
       const response = await axios
-        .post(apiEndpoint + "/signup", {
-          firstName: data.get("firstName"),
-          lastName: data.get("lastName"),
-          email: data.get("email"),
-          password: data.get("password"),
-          passphrase: data.get("passphrase"),
-        })
+        .post(apiEndpoint + "/signup", reqBody)
         .then((res) => {
           if (res.status === 200) navigate("/");
         });
