@@ -10,7 +10,7 @@ async function authMiddleware(req, res, next) {
         return res.status(401).send('Unauthorized') 
 
     const token = bearerHeader.replace("Bearer ","");
-    console.log(token)
+    console.log(bearerHeader)
     //Verify the input token 
     jwt.verify(token, process.env.JWT_SECRET, (err, jwtPayload) => {
         if (err) {

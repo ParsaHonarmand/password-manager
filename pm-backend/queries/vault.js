@@ -63,7 +63,7 @@ const getAllPasswords = (request, response) => {
         }
         let passwordLabels = []
         result.passwords.forEach(item => {
-            passwordLabels.push(item.username)
+            passwordLabels.push(item.label)
         });
         console.log("Got all password labels for " + email)
         return response.status(200).send(passwordLabels)
