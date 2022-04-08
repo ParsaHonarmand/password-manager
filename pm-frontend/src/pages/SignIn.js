@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [validUser, setValidUser] = useState(true);
+
   // const [user, setUser] = useState();
   const navigate = useNavigate();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
@@ -47,6 +49,7 @@ export default function SignIn() {
       navigate("/");
       // navigate('/vault');
     } catch (error) {
+      setValidUser(false);
       console.log("Failed to login");
       console.log(error);
     }
@@ -113,6 +116,12 @@ export default function SignIn() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
+            {!validUser ? 
+              <Typography color="error">
+                We couldn't find that username and password combination in our records.
+              </Typography>
+            : null}
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
