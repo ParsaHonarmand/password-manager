@@ -27,7 +27,8 @@ const addUser = async (firstName, lastName, email, hashedPassword, hashedPassphr
             "last_name": lastName, 
             "email":email, 
             "password": hashedPassword, 
-            "passphrase": hashedPassphrase 
+            "passphrase": hashedPassphrase ,
+            "passswords": []
         })
     } catch (error) {
         return response.status(500).send("Error occured when adding user")
