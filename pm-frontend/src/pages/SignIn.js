@@ -36,9 +36,6 @@ export default function SignIn() {
     // should use post here and send the email/password instead
     try {
       const res = await axios.post(apiEndpoint + "/login", reqBody);
-      // http://blogservice.herokuapp.com/api/login
-      // Cookies.set('token', res.data.token)
-      // localStorage.setItem("authToken", response.data.token); // TODO: response.data.token is correct format?
       console.log("Setting localStorage");
       console.log(res.data);
       localStorage.setItem(

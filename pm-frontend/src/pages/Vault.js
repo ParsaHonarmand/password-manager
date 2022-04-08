@@ -24,7 +24,6 @@ export default function PasswordGetter() {
   const [showDeletePop, setShowDeletePop] = useState(false);
   // const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [authToken, setAuthToken] = useState();
   const [savedSites, setSavedSites] = useState();
 
   const [revealedPass, setRevealedPass] = useState();
@@ -54,13 +53,13 @@ export default function PasswordGetter() {
       // setUser(foundUser);
       setLoggedIn(true);
     }
-    setAuthToken(localStorage.getItem("authToken"));
+    
 
     async function getAllSites() {
       try {
         const response = await axios.get("http://localhost:3001/passwords", {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         });
         setSavedSites(response.data);
@@ -72,19 +71,19 @@ export default function PasswordGetter() {
 
     // !testing only
     // TODO: delete
-    setSavedSites([
-      "Google",
-      "Facebook",
-      "Instagram",
-      "Firefox",
-      "Snapchat",
-      "Reddit",
-      "D2L",
-      "ucalgary",
-      "Miniclip",
-      "Cool Math Games",
-    ]);
-  }, [authToken]);
+    // setSavedSites([
+    //   "Google",
+    //   "Facebook",
+    //   "Instagram",
+    //   "Firefox",
+    //   "Snapchat",
+    //   "Reddit",
+    //   "D2L",
+    //   "ucalgary",
+    //   "Miniclip",
+    //   "Cool Math Games",
+    // ]);
+  });
 
   const revealPassword = async (site) => {
     console.log("Revealing " + site.label);
@@ -93,7 +92,7 @@ export default function PasswordGetter() {
         `http://localhost:3001/password?label=${site.label}`,
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         }
       );
@@ -116,7 +115,7 @@ export default function PasswordGetter() {
         reqBody,
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         }
       );
