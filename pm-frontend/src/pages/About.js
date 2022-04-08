@@ -1,12 +1,17 @@
+import { List, ListItem } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 import * as React from "react";
 
 export default function About() {
   return (
     <>
-      <Container component="main" maxWidth="sm">
+      <Typography marginTop={5} variant="h2" textAlign="center" gutterBottom>
+          About Password-Manager
+        </Typography>
+      <Container component="main" maxWidth="sm">        
         <Box
           sx={{
             marginTop: 8,
@@ -15,57 +20,69 @@ export default function About() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h2" gutterBottom>
-            About Password-Manager
+          <Typography variant="h4">
+            Created By
           </Typography>
           <Typography>
-            Password-Manager is the final project (unessay) for our group in
-            CPSC 329. It was created by Parsa Honarmand, Ben Schmidt, Louis
-            Kunstmann, and Tim Macphail.
+            <List>
+              <ListItem>Parsa Honarmand</ListItem>
+              <ListItem>Ben Schmidt</ListItem>
+              <ListItem>Louis Kunstmann</ListItem>
+              <ListItem>Tim Macphail</ListItem>
+              <Divider sx={{mt: 2, mb: 2}}></Divider>       
+            </List>
           </Typography>
-          <Container maxWidth="xs" sx={{ mb: 4, mt: 4 }}>
+
+          <Container maxWidth="xs" sx={{ mb: 4}}>
             <Typography variant="overline">
-              Disclaimer: We are not web developers or web security experts, and
+              <b>Disclaimer:</b> We are not web developers or web security experts, and
               we do not recommend the use of 'Password-Manager' to store your
               passwords. This is simply a demonstration of the concepts we
               learned during the course.
             </Typography>
           </Container>
 
-          <Typography gutterBottom variant="h5">
-            Implementeation Details
+          <Typography>
+            Password-Manager is the Unessay (final project) we created for CPSC 329 at the University of Calgary.            
+          </Typography>          
+
+          <Typography variant="h4" sx = {{mt: 4, mb: 4}}>
+            Implementation Details
           </Typography>
 
           <Typography>
-            For encryption, We are using AES with block mode. We are also using
-            JWT to authenticate actions stored in cookies - open source gold
-            standard encryption library, rather than our own - we are not hiding
-            what encryption we have
+            We are using an open-source gold standard encryption library rather than our own. 
+            We are not hiding what encryption we have in order to improve security by allowing many eyes to discover and fix exploits in the libraries.
           </Typography>
-          <ul>
-            <li>
+
+          <Typography variant = "h6" sx = {{mt: 2}}>
+            Technologies Used
+          </Typography>
+
+          <List>
+            <ListItem>
               <Typography>
-                AES with block ? mode [Louis fill this in]
+                AES with ? block mode [Louis fill this in]
               </Typography>
-            </li>
-            <li>
+            </ListItem>
+            <ListItem>
               <Typography>JWT to authenticate actions</Typography>
-            </li>
-            <li>
+            </ListItem>
+            <ListItem>
               <Typography>
                 Mention something about CAs, since we learned about that in
                 class
               </Typography>
-            </li>
-            <li>
+            </ListItem>
+            <ListItem>
               <Typography>
                 More stuff that we learned about in the web security /
-                crypography secions of this class
+                cryptography secions of this class
               </Typography>
-            </li>
-          </ul>
+            </ListItem>
+          </List>
           <Typography>
-            We abided by the principle of least permissions. Whenever we were
+            We abided by the principle of least permissions - whenever we were
             implementing a feature, we limited the permissions required as much
             as possible. For example, when a user wishes to retrieve a password
             from a site, the backend only sends that one password, instead of
