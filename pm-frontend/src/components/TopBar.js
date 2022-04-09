@@ -3,7 +3,7 @@ import {
     Typography
 } from "@mui/material";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -17,19 +17,7 @@ export default function TopBar() {
     right: false,
   });
 
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  }, []);
-
-  // TODO: hardcoded
-  const [loggedIn, setLoggedIn] = useState(true);
-
   const handleLogout = () => {
-    setLoggedIn(false);
     localStorage.clear();
     navigate("/");
   };
@@ -67,7 +55,7 @@ export default function TopBar() {
             </Button>
           </Typography>
 
-          {loggedIn ? (
+          {localStorage.getItem("user") ? (
             <Button color="inherit" onClick={handleLogout}>
               Log out
             </Button>
