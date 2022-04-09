@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 app.post('/login', authenticate.login)
 app.post('/signup', authenticate.signUp)
 
-app.post('/addPassword', vault.addPassword)
+app.post('/addPassword', authMiddleware.authMiddleware, vault.addPassword)
 app.delete('/removePassword', vault.removePassword)
 app.put('/changePassword', vault.changePassword)
 app.get('/password', authMiddleware.authMiddleware, vault.getPassword)
