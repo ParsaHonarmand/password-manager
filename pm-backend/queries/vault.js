@@ -46,6 +46,20 @@ const addPassword = (request, response) => {
 }
 const removePassword = (request, response) => {
     // remove password for that user from their list of passwords
+    const { requestedSite } = request.body
+    console.log("removing entry for " + requestedSite)
+    const email = request.userEmail
+    const db = mongoClient.db("password-manager-db")
+    
+    db.collection("users").updateOne(
+        { email: email }, 
+        { $pull: { passwords: { label: requestedSite } } },
+        (err, result) => {
+            if (err)
+                response.status(500).send("An error has occured")
+            return response.status(200).send("Deleted Successfully")
+        }
+    );
 }
 const changePassword = (request, response) => {
     // request body contains the name of website and new raw password 

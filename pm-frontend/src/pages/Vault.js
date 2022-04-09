@@ -136,11 +136,13 @@ export default function PasswordGetter() {
     try {
       const response = await axios.delete(
         "http://localhost:3001/removePassword",
-        reqBody,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
+          data: {
+            requestedSite: site.label
+          }
         }
       );
       if (response.status === 200) {
