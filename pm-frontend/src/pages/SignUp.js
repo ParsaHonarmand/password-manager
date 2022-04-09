@@ -37,7 +37,7 @@ export default function SignUp() {
         .post(apiEndpoint + "/signup", reqBody)
         .then((res) => {
           if (res.status === 200) navigate("/")
-          else setEmailTaken(true)
+          else if (res.status === 400) setEmailTaken(true)
         });
       localStorage.setItem("user", response.data.token);
     } catch (error) {
