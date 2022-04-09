@@ -257,7 +257,6 @@ export default function PasswordGetter() {
               onChange={(event) => setPassphrase(event.target.value)}
               helperText={errorMsg}
               error={isPassWrong}
-              type="password"
           />
           <Button
               type="submit"
