@@ -48,10 +48,22 @@ const getPassword = (request, response) => {
         return response.status(304).send("No password found")
     })
 }
+
+const VerifyPassPhrase = (passphrase, realPassphrase) => {
+    if (passphrase === realPassphrase) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const getAllPasswords = (request, response) => {
     // get the list of encrypted passwords from the DB
     // decrypt each password and return to the frontend
     let email = request.userEmail
+    let passphrase = request.body.passphrase
+    // need to decrypt this passphrase 
+
     const db = mongoClient.db("password-manager-db")
 
     db.collection("users").findOne({ email: email }, (err, result) => {
@@ -61,12 +73,17 @@ const getAllPasswords = (request, response) => {
         if (result === null) {
             return response.status(401).send("Incorrect email/password")
         }
-        let passwordLabels = []
-        result.passwords.forEach(item => {
-            passwordLabels.push(item.label)
-        });
-        console.log("Got all password labels for " + email)
-        return response.status(200).send(passwordLabels)
+
+        if (VerifyPassPhrase(passphrase, result.passphrase)) {
+            let passwordLabels = []
+            result.passwords.forEach(item => {
+                passwordLabels.push(item.label)
+            });
+            console.log("Got all password labels for " + email)
+            return response.status(200).send(passwordLabels)
+        } else {
+            return response.status(401).send("Incorrect vault password")
+        }
     })
 }
 

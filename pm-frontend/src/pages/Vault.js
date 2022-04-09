@@ -24,6 +24,10 @@ export default function PasswordGetter() {
   const [showDeletePop, setShowDeletePop] = useState(false);
   // const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [isPassWrong, setIsPassWrong] = useState(false);
+  const [passphrase, setPassphrase] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [savedSites, setSavedSites] = useState();
 
   const [revealedPass, setRevealedPass] = useState();
@@ -44,6 +48,18 @@ export default function PasswordGetter() {
     justifyContent: "flex-end",
     flexDirection: "column",
   };
+  
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -53,21 +69,6 @@ export default function PasswordGetter() {
       // setUser(foundUser);
       setLoggedIn(true);
     }
-    
-
-    async function getAllSites() {
-      try {
-        const response = await axios.get("http://localhost:3001/passwords", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        });
-        setSavedSites(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getAllSites();
 
     // !testing only
     // TODO: delete
@@ -83,8 +84,31 @@ export default function PasswordGetter() {
     //   "Miniclip",
     //   "Cool Math Games",
     // ]);
-  });
+  }, []);
 
+  const getAllSites = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/passwords", 
+      {
+        passphrase: passphrase
+      }, 
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      setErrorMsg("")
+      setIsPassWrong(false)
+      setSavedSites(response.data);
+      setAuthenticated(true);
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        setErrorMsg("Incorrect Passphrase, try again!")
+        setIsPassWrong(true)
+      }
+    }
+  }
   const revealPassword = async (site) => {
     console.log("Revealing " + site.label);
     try {
@@ -211,7 +235,41 @@ export default function PasswordGetter() {
       </Modal>
 
       <LoginPrompt open={!loggedIn} />
-
+      <Modal
+        open={!authenticated}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Please Enter Your Vault Passphrase to Access
+          </Typography>
+          <TextField
+              id="modal-modal-description" sx={{ mt: 2 }}
+              margin="normal"
+              required
+              fullWidth
+              label="Passphrase"
+              name="passphrase"
+              autoComplete="passphrase"
+              autoFocus
+              value={passphrase}
+              onChange={(event) => setPassphrase(event.target.value)}
+              helperText={errorMsg}
+              error={isPassWrong}
+              type="password"
+          />
+          <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={getAllSites}
+          >
+              Enter
+          </Button>
+        </Box>
+      </Modal>
       <Typography
         variant="h4"
         component="div"
