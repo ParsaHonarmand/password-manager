@@ -13,12 +13,14 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import * as React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [emailTaken, setEmailTaken] = useState("false");
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,7 +36,8 @@ export default function SignUp() {
       const response = await axios
         .post(apiEndpoint + "/signup", reqBody)
         .then((res) => {
-          if (res.status === 200) navigate("/");
+          if (res.status === 200) navigate("/")
+          else setEmailTaken(true)
         });
       localStorage.setItem("user", response.data.token);
     } catch (error) {
@@ -98,6 +101,7 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
+              {!emailTaken ? <Typography color="error" sx={{ml: 3 ,mt:2}}>Email address taken.</Typography> : null}
               <Grid item xs={12}>
                 <TextField
                   required
