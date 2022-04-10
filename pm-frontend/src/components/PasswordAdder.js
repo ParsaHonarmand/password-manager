@@ -21,6 +21,14 @@ export default function PasswordAdder(props) {
   const addPassword = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const inValid =
+      !data.get("website") || !data.get("username") || !data.get("password");
+    console.log(inValid);
+
+    if (inValid) {
+      alert("Please fill out all fields");
+      return;
+    }
     setSubmitted(true);
 
     let reqBody;
@@ -43,7 +51,7 @@ export default function PasswordAdder(props) {
           }
         );
         setSubmitted(false);
-        props.addCallback(reqBody.website)
+        props.addCallback(reqBody.website);
       } catch (error) {
         console.log("Error adding password: " + error);
       }
@@ -65,7 +73,7 @@ export default function PasswordAdder(props) {
           }
         );
         setSubmitted(false);
-        props.modalCallback()
+        props.modalCallback();
       } catch (error) {
         console.log("Error adding password: " + error);
       }
