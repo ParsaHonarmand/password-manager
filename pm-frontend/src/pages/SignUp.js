@@ -20,7 +20,7 @@ const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [emailTaken, setEmailTaken] = useState("false");
+  const [emailTaken, setEmailTaken] = useState(false);
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,15 +46,18 @@ export default function SignUp() {
       passphrase: data.get("passphrase"),
     };
     try {
-      const response = await axios
-        .post(apiEndpoint + "/signup", reqBody)
-        .then((res) => {
-          if (res.status === 200) navigate("/")
-          else if (res.status === 400) setEmailTaken(true)
-        });
-      localStorage.setItem("user", response.data.token);
+      const res = await axios.post(apiEndpoint + "/signup", reqBody);
+      localStorage.setItem(
+        "user",
+        "not null"
+      );
+      localStorage.setItem("email", reqBody.email);
+      localStorage.setItem("authToken", res.data.token);
+      navigate("/");
     } catch (error) {
       console.log(error);
+      console.log(error.response.status);
+      setEmailTaken(true);
     }
   };
 
@@ -114,7 +117,11 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
-              {!emailTaken ? <Typography color="error" sx={{ml: 3 ,mt:2}}>Email address taken.</Typography> : null}
+              {emailTaken ? (
+                <Typography color="error" sx={{ ml: 3, mt: 2 }}>
+                  Email address taken.
+                </Typography>
+              ) : null}
               <Grid item xs={12}>
                 <TextField
                   required

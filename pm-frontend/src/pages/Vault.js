@@ -132,9 +132,6 @@ export default function PasswordGetter() {
 
   const deleteEntry = async (site) => {
     console.log("Deleting " + site.label);
-    const reqBody = {
-      requestedSite: site.label,
-    };
     try {
       const response = await axios.delete(
         "http://localhost:3001/removePassword",
@@ -149,11 +146,21 @@ export default function PasswordGetter() {
       );
       if (response.status === 200) {
         console.log("Successfully deleted");
+        let savedSitesCopy = savedSites
+        let index = savedSitesCopy.indexOf(site.label);
+        if (index !== -1) {
+          savedSitesCopy.splice(index, 1);
+        }
+        setSavedSites(savedSitesCopy)
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleAddCallback = (newLabel) =>{
+    setSavedSites([...savedSites, newLabel])
+  }
 
   /*   const editEntry = (site) => {
     console.log("Editing " + site);
@@ -187,7 +194,11 @@ export default function PasswordGetter() {
         Save a password:
       </Typography>
 
+<<<<<<< HEAD
       <PasswordAdder endpoint="addPassword" sx={{ mb: 2 }} />
+=======
+      <PasswordAdder sx={{ mb: 2 }} addCallback={handleAddCallback}/>
+>>>>>>> 7e66fe51be6af78d56b331cc05fc1fc72d10a9d9
 
       <Modal open={showEditPop}>
         <Box sx={popupStyle}>
@@ -207,7 +218,11 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
+<<<<<<< HEAD
           <PasswordAdder endpoint="changePassword"/>
+=======
+          <PasswordAdder addCallback={handleAddCallback}/>
+>>>>>>> 7e66fe51be6af78d56b331cc05fc1fc72d10a9d9
         </Box>
       </Modal>
 
