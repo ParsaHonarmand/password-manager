@@ -6,7 +6,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 const axios = require("axios");
 
-export default function PasswordAdder() {
+export default function PasswordAdder(props) {
   const [submitted, setSubmitted] = useState(false);
   const [authToken, setAuthToken] = useState();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
@@ -36,6 +36,7 @@ export default function PasswordAdder() {
       );
       if (res.status === 200) {
         setSubmitted(true);
+        props.addCallback(reqBody.website)
       }
     } catch (error) {
       console.log("Error adding password")
