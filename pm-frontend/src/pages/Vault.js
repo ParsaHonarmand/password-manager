@@ -207,7 +207,7 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-          <PasswordAdder endpoint="editPassword"/>
+          <PasswordAdder endpoint="changePassword"/>
         </Box>
       </Modal>
 

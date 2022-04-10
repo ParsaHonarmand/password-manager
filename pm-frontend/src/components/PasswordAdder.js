@@ -1,47 +1,76 @@
 import {
-  Box, Button, CircularProgress, TextField,
-  Typography
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
 } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
 const axios = require("axios");
 
-export default function PasswordAdder() {
+export default function PasswordAdder(props) {
   const [submitted, setSubmitted] = useState(false);
   const [authToken, setAuthToken] = useState();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
-
-  //props.endpoint = "addPasword"
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authToken"));
   }, []);
 
-  const addPassword = async (event, props) => {
+  const addPassword = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setSubmitted(!submitted);
-    console.log("props.endpoint")
-    const reqBody = {
-      website: data.get("website"),
-      username: data.get("username"),
-      password: data.get("password"),
-    }
-    try {
-      const res = await axios.post(
-        apiEndpoint + "/" + props.endpoint,
-        reqBody,
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`,
-          },
+    setSubmitted(true);
+
+    let reqBody;
+
+    if (props.endpoint === "addPassword") {
+      reqBody = {
+        website: data.get("website"),
+        username: data.get("username"),
+        password: data.get("password"),
+      };
+
+      try {
+        const res = await axios.post(
+          apiEndpoint + "/" + props.endpoint,
+          reqBody,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        if (res.status === 200) {
+          setSubmitted(false);
         }
-      );
-      if (res.status === 200) {
-        setSubmitted(true);
+      } catch (error) {
+        console.log("Error adding password: " + error);
       }
-    } catch (error) {
-      console.log("Error adding password")
+    } else {
+      reqBody = {
+        label: data.get("website"),
+        newUsername: data.get("username"),
+        newPassword: data.get("password"),
+      };
+
+      try {
+        const res = await axios.put(
+          apiEndpoint + "/" + props.endpoint,
+          reqBody,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        if (res.status === 200) {
+          setSubmitted(false);
+        }
+      } catch (error) {
+        console.log("Error adding password: " + error);
+      }
     }
   };
 
