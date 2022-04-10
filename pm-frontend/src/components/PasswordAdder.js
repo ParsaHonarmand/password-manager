@@ -41,7 +41,7 @@ export default function PasswordAdder(props) {
       };
 
       try {
-        const res = await axios.post(
+        await axios.post(
           apiEndpoint + "/" + props.endpoint,
           reqBody,
           {
@@ -64,7 +64,7 @@ export default function PasswordAdder(props) {
       };
 
       try {
-        const res = await axios.put(
+        await axios.put(
           apiEndpoint + "/" + props.endpoint,
           reqBody,
           {

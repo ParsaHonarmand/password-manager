@@ -30,7 +30,7 @@ export default function SignUp() {
     console.log(pass);
     const pass2 = data.get("password-verify");
     console.log(pass2);
-    if (pass != pass2) {
+    if (pass !== pass2) {
       alert("Passwords do not match");
       return;
     }

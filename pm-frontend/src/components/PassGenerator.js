@@ -1,24 +1,36 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
-    Box, Button, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, Slider, Stack, Typography
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Slider,
+  Stack,
+  Typography,
 } from "@mui/material";
-import axios from 'axios';
+import axios from "axios";
 import React, { useState } from "react";
 
 export default function PassGenerator() {
   const [passType, setPassType] = useState("word");
   const [length, setLength] = useState(12);
   const [password, setPassword] = React.useState("");
-  
+
   const generatePassword = async (event) => {
-    try {      
-      const res = await axios.post("http://localhost:3001/generatePassword", {length: length, type: passType})
-      setPassword(res.data)
-    } catch(error) {
-      console.log("Failed to generate password")
-      console.log(error)
+    try {
+      const res = await axios.post("http://localhost:3001/generatePassword", {
+        length: length,
+        type: passType,
+      });
+      setPassword(res.data);
+    } catch (error) {
+      console.log("Failed to generate password");
+      console.log(error);
     }
-  }
+  };
 
   const handleLengthChange = (event, newValue) => {
     setLength(newValue);
@@ -68,23 +80,43 @@ export default function PassGenerator() {
         gutterBottom
         style={{ color: "#404040" }}
       >
-        Password length: {length}
+        {passType === "word"
+          ? `Password length: ${length} characters`
+          : `Passphrase length: ${length} words`}
+        {/* Pass{passType} length: {length}  */}
       </Typography>
 
-      <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" marginTop={3} marginBottom={3}>
-        <Button color="secondary" variant="contained" onClick={generatePassword}>Generate</Button>
-        {password !== "" &&
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        justifyContent="center"
+        marginTop={3}
+        marginBottom={3}
+      >
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={generatePassword}
+        >
+          Generate
+        </Button>
+        {password !== "" && (
           <IconButton color="inherit">
-            <ContentCopyIcon onClick={() => {navigator.clipboard.writeText(password)}} />
+            <ContentCopyIcon
+              onClick={() => {
+                navigator.clipboard.writeText(password);
+              }}
+            />
           </IconButton>
-        }
+        )}
       </Stack>
 
-      {password !== "" &&
+      {password !== "" && (
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
+            display: "flex",
+            justifyContent: "space-between",
             p: 1,
             m: 1,
             bgcolor: "darkcyan",
@@ -92,7 +124,7 @@ export default function PassGenerator() {
             width: "50%",
             margin: "auto",
             height: "fit-content",
-            overflowY: "auto"
+            overflowY: "auto",
           }}
         >
           <Typography
@@ -104,7 +136,7 @@ export default function PassGenerator() {
             <b>{password}</b>
           </Typography>
         </Box>
-      }
+      )}
     </Box>
   );
 }
