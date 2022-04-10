@@ -133,7 +133,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              {/* <Grid item xs={12}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -152,7 +152,7 @@ export default function SignUp() {
                     What's the difference?
                   </Typography>
                 </Tooltip>
-              </Grid> */}
+              </Grid>
             </Grid>
             <Button
               type="submit"
