@@ -25,6 +25,19 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
+    const pass = data.get("password");
+    console.log(pass);
+    const pass2 = data.get("password-verify");
+    console.log(pass2);
+    if (pass != pass2) {
+      alert("Passwords do not match");
+      return;
+    }
+    if (pass2.length < 8) {
+      alert("Password must be at least 8 characters");
+    }
+
     const reqBody = {
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
@@ -117,6 +130,17 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
+                  name="password-verify"
+                  label="Re-enter Password"
+                  type="password"
+                  id="password-verify"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   name="passphrase"
                   label="Passphrase"
                   type="passphrase"
@@ -143,7 +167,16 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container spacing={2}>
+              <Grid item>
+                <Link
+                  href="https://pages.nist.gov/800-63-3/sp800-63b.html"
+                  variant="body2"
+                  target="_blank"
+                >
+                  NIST password guidelines
+                </Link>
+              </Grid>
               <Grid item>
                 <Link href="/signin" variant="body2">
                   Already have an account? Sign in
