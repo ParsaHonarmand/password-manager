@@ -147,7 +147,7 @@ const getAllPasswords = (request, response) => {
 
     const db = mongoClient.db("password-manager-db")
 
-    db.collection("users").findOne({ email: email }, (err, result) => {
+    db.collection("users").findOne({ email: email }, async (err, result) => {
         if (err) 
             response.status(500).send("An error has occured")
 
@@ -155,11 +155,13 @@ const getAllPasswords = (request, response) => {
             return response.status(401).send("Incorrect email/password")
         }
 
-        if (VerifyPassPhrase(passphrase, result.passphrase)) {
+        if (await VerifyPassPhrase(passphrase, result.passphrase)) {
             let passwordLabels = []
-            result.passwords.forEach(item => {
-                passwordLabels.push(item.label)
-            });
+            if (result.passwords) {
+                result.passwords.forEach(item => {
+                    passwordLabels.push(item.label)
+                });
+            }
             console.log("Got all password labels for " + email)
             return response.status(200).send(passwordLabels)
         } else {
