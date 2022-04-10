@@ -64,6 +64,45 @@ const removePassword = (request, response) => {
 const changePassword = (request, response) => {
     // request body contains the name of website and new raw password 
     // we encrypt the new password and replace the old password in DB
+    const { label, newUsername, newPassword} = request.body
+    console.log("Editing entry for " + label)
+    const email = request.userEmail
+    const db = mongoClient.db("password-manager-db")
+    
+    let hash
+    let newEncryptedPassword
+    db.collection("users").findOne({ email: email }, (err, result) => {
+        if (err) 
+            return response.status(500).send("An error has occured")
+
+        if (result === null) {
+            return response.status(401).send("Incorrect email/password")
+        }
+        hash = result.password
+        newEncryptedPassword = encryptPassword(newPassword, hash)
+        console.log("Encrypted the new password")
+        db.collection("users").updateOne(
+            { email: email }, 
+            { $set: {
+                "passwords.$[item].username": newUsername,
+                "passwords.$[item].password": newEncryptedPassword,
+            }},
+            {
+                arrayFilters: [
+                  {
+                    "item.label": {
+                      $eq: label
+                    },
+                  }
+                ],
+            },
+            (err, result) => {
+                if (err)
+                    response.status(500).send("An error has occured")
+                return response.status(200).send("Modified Successfully")
+            }
+        );
+    })
 }
 const getPassword = (request, response) => {
     // request contains the name of the website that we want a password for
