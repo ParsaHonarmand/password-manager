@@ -132,9 +132,6 @@ export default function PasswordGetter() {
 
   const deleteEntry = async (site) => {
     console.log("Deleting " + site.label);
-    const reqBody = {
-      requestedSite: site.label,
-    };
     try {
       const response = await axios.delete(
         "http://localhost:3001/removePassword",
@@ -149,11 +146,21 @@ export default function PasswordGetter() {
       );
       if (response.status === 200) {
         console.log("Successfully deleted");
+        let savedSitesCopy = savedSites
+        let index = savedSitesCopy.indexOf(site.label);
+        if (index !== -1) {
+          savedSitesCopy.splice(index, 1);
+        }
+        setSavedSites(savedSitesCopy)
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleAddCallback = (newLabel) =>{
+    setSavedSites([...savedSites, newLabel])
+  }
 
   /*   const editEntry = (site) => {
     console.log("Editing " + site);
@@ -187,7 +194,7 @@ export default function PasswordGetter() {
         Save a password:
       </Typography>
 
-      <PasswordAdder sx={{ mb: 2 }} />
+      <PasswordAdder sx={{ mb: 2 }} addCallback={handleAddCallback}/>
 
       <Modal open={showEditPop}>
         <Box sx={popupStyle}>
@@ -207,7 +214,7 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-          <PasswordAdder />
+          <PasswordAdder addCallback={handleAddCallback}/>
         </Box>
       </Modal>
 
