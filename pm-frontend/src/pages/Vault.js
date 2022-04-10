@@ -68,21 +68,6 @@ export default function PasswordGetter() {
     if (foundToken != null) {
       setLoggedIn(true);
     }
-
-    // !testing only
-    // TODO: delete
-    // setSavedSites([
-    //   "Google",
-    //   "Facebook",
-    //   "Instagram",
-    //   "Firefox",
-    //   "Snapchat",
-    //   "Reddit",
-    //   "D2L",
-    //   "ucalgary",
-    //   "Miniclip",
-    //   "Cool Math Games",
-    // ]);
   }, []);
 
   const getAllSites = async () => {
@@ -161,21 +146,6 @@ export default function PasswordGetter() {
     console.log("handling call back")
     setSavedSites([...savedSites, newLabel]);
   };
-
-  /*   const editEntry = (site) => {
-    console.log("Editing " + site);
-    axios.post(
-      "http://localhost:3001/passwords/delete",
-      {
-        requestedSite: site,
-      },
-      {
-        headers: {
-          token: "JWT_TOKEN_HERE",
-        },
-      }
-    );
-  }; */
 
   return (
     <Box
@@ -414,16 +384,3 @@ export default function PasswordGetter() {
     </Box>
   );
 }
-
-// const savedSites = [
-//   { label: "Google", password: "www.Google.com" },
-//   { label: "Facebook", password: "www.Facebook.com" },
-//   { label: "Instagram", password: "www.Instagram.com" },
-//   { label: "Firefox", password: "www.Firefox.com" },
-//   { label: "Snapchat", password: "www.Snapchat.com" },
-//   { label: "Reddit", password: "www.Reddit.com" },
-//   { label: "D2L", password: "www.D2L.com" },
-//   { label: "ucalgary", password: "www.ucalgary.ca" },
-//   { label: "Miniclip", password: "www.miniclip.com" },
-//   { label: "Cool Math Games", password: "www.Cool Math Games.com" },
-// ];
