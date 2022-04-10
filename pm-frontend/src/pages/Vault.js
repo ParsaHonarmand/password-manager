@@ -183,7 +183,7 @@ export default function PasswordGetter() {
         Save a password:
       </Typography>
 
-      <PasswordAdder sx={{ mb: 2 }} />
+      <PasswordAdder endpoint="addPassword" sx={{ mb: 2 }} />
 
       <Modal open={showEditPop}>
         <Box sx={popupStyle}>
@@ -203,7 +203,7 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-          <PasswordAdder />
+          <PasswordAdder endpoint="editPassword"/>
         </Box>
       </Modal>
 

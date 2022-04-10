@@ -11,14 +11,17 @@ export default function PasswordAdder() {
   const [authToken, setAuthToken] = useState();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
+  //props.endpoint = "addPasword"
+
   useEffect(() => {
     setAuthToken(localStorage.getItem("authToken"));
   }, []);
 
-  const addPassword = async (event) => {
+  const addPassword = async (event, props) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setSubmitted(!submitted);
+    console.log("props.endpoint")
     const reqBody = {
       website: data.get("website"),
       username: data.get("username"),
@@ -26,7 +29,7 @@ export default function PasswordAdder() {
     }
     try {
       const res = await axios.post(
-        apiEndpoint + "/addPassword",
+        apiEndpoint + "/" + props.endpoint,
         reqBody,
         {
           headers: {
