@@ -52,6 +52,7 @@ export default function PasswordAdder(props) {
         );
         setSubmitted(false);
         props.addCallback(reqBody.website);
+        alert("Success");
       } catch (error) {
         console.log("Error adding password: " + error);
       }
@@ -74,6 +75,7 @@ export default function PasswordAdder(props) {
         );
         setSubmitted(false);
         props.modalCallback();
+        alert("Success");
       } catch (error) {
         console.log("Error adding password: " + error);
       }

@@ -136,6 +136,7 @@ export default function PasswordGetter() {
           savedSitesCopy.splice(index, 1);
         }
         setSavedSites(savedSitesCopy);
+        setRevealed(false);
       }
     } catch (error) {
       console.log(error);
