@@ -65,7 +65,7 @@ export default function PasswordAdder(props) {
           }
         );
         setSubmitted(false);
-        props.addCallback(reqBody.label)
+        props.modalCallback()
       } catch (error) {
         console.log("Error adding password: " + error);
       }
