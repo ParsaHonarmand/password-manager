@@ -16,9 +16,11 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import LoginPrompt from "../components/LoginPrompt";
 import PasswordAdder from "../components/PasswordAdder";
+import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
 export default function PasswordGetter() {
+  const navigate = useNavigate();
   const [validInput, setValidInput] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
   const [showDeletePop, setShowDeletePop] = useState(false);
@@ -243,7 +245,7 @@ export default function PasswordGetter() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign: "center"}}>
             Please Enter Your Vault Passphrase to Access
           </Typography>
           <TextField
@@ -260,15 +262,25 @@ export default function PasswordGetter() {
               helperText={errorMsg}
               error={isPassWrong}
           />
-          <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={getAllSites}
-          >
-              Enter
-          </Button>
+          <Box sx={{ mt: 3, mb: 2, display: 'flex' }}>
+            <Button
+                type="submit"
+                variant="contained"
+                onClick={getAllSites}
+                sx={{flex: 4, m: 2}}
+            >
+                Enter
+            </Button>
+            <Button
+                type="submit"
+                color="secondary"
+                variant="contained"
+                sx={{flex: 4, m: 2}}
+                onClick={() => {navigate("/");}}
+            >
+                Cancel
+            </Button>
+          </Box>
         </Box>
       </Modal>
       <Typography
