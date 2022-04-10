@@ -50,7 +50,7 @@ export default function PasswordGetter() {
     justifyContent: "flex-end",
     flexDirection: "column",
   };
-  
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -64,11 +64,8 @@ export default function PasswordGetter() {
   };
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      console.log("Found user", foundUser);
-      // setUser(foundUser);
+    const foundToken = localStorage.getItem("authToken");
+    if (foundToken != null) {
       setLoggedIn(true);
     }
 
@@ -90,27 +87,29 @@ export default function PasswordGetter() {
 
   const getAllSites = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/passwords", 
-      {
-        passphrase: passphrase
-      }, 
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      const response = await axios.post(
+        "http://localhost:3001/passwords",
+        {
+          passphrase: passphrase,
         },
-      });
-      setErrorMsg("")
-      setIsPassWrong(false)
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      setErrorMsg("");
+      setIsPassWrong(false);
       setSavedSites(response.data);
       setAuthenticated(true);
     } catch (error) {
       console.log(error);
       if (error.response.status === 401) {
-        setErrorMsg("Incorrect Passphrase, try again!")
-        setIsPassWrong(true)
+        setErrorMsg("Incorrect Passphrase, try again!");
+        setIsPassWrong(true);
       }
     }
-  }
+  };
   const revealPassword = async (site) => {
     console.log("Revealing " + site.label);
     try {
@@ -123,7 +122,7 @@ export default function PasswordGetter() {
         }
       );
       setRevealedPass(res.data.password);
-      setSelectedSite(res.data)
+      setSelectedSite(res.data);
       setRevealed(true);
     } catch (error) {
       console.log("Error");
@@ -140,27 +139,27 @@ export default function PasswordGetter() {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
           data: {
-            requestedSite: site.label
-          }
+            requestedSite: site.label,
+          },
         }
       );
       if (response.status === 200) {
         console.log("Successfully deleted");
-        let savedSitesCopy = savedSites
+        let savedSitesCopy = savedSites;
         let index = savedSitesCopy.indexOf(site.label);
         if (index !== -1) {
           savedSitesCopy.splice(index, 1);
         }
-        setSavedSites(savedSitesCopy)
+        setSavedSites(savedSitesCopy);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleAddCallback = (newLabel) =>{
-    setSavedSites([...savedSites, newLabel])
-  }
+  const handleAddCallback = (newLabel) => {
+    setSavedSites([...savedSites, newLabel]);
+  };
 
   /*   const editEntry = (site) => {
     console.log("Editing " + site);
@@ -214,7 +213,10 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-          <PasswordAdder endpoint="changePassword" addCallback={handleAddCallback}/>
+          <PasswordAdder
+            endpoint="changePassword"
+            addCallback={handleAddCallback}
+          />
         </Box>
       </Modal>
 
@@ -252,40 +254,48 @@ export default function PasswordGetter() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign: "center"}}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ textAlign: "center" }}
+          >
             Please Enter Your Vault Passphrase to Access
           </Typography>
           <TextField
-              id="modal-modal-description" sx={{ mt: 2 }}
-              margin="normal"
-              required
-              fullWidth
-              label="Passphrase"
-              name="passphrase"
-              autoComplete="passphrase"
-              autoFocus
-              value={passphrase}
-              onChange={(event) => setPassphrase(event.target.value)}
-              helperText={errorMsg}
-              error={isPassWrong}
+            id="modal-modal-description"
+            sx={{ mt: 2 }}
+            margin="normal"
+            required
+            fullWidth
+            label="Passphrase"
+            name="passphrase"
+            autoComplete="passphrase"
+            autoFocus
+            value={passphrase}
+            onChange={(event) => setPassphrase(event.target.value)}
+            helperText={errorMsg}
+            error={isPassWrong}
           />
-          <Box sx={{ mt: 3, mb: 2, display: 'flex' }}>
+          <Box sx={{ mt: 3, mb: 2, display: "flex" }}>
             <Button
-                type="submit"
-                variant="contained"
-                onClick={getAllSites}
-                sx={{flex: 4, m: 2}}
+              type="submit"
+              variant="contained"
+              onClick={getAllSites}
+              sx={{ flex: 4, m: 2 }}
             >
-                Enter
+              Enter
             </Button>
             <Button
-                type="submit"
-                color="secondary"
-                variant="contained"
-                sx={{flex: 4, m: 2}}
-                onClick={() => {navigate("/");}}
+              type="submit"
+              color="secondary"
+              variant="contained"
+              sx={{ flex: 4, m: 2 }}
+              onClick={() => {
+                navigate("/");
+              }}
             >
-                Cancel
+              Cancel
             </Button>
           </Box>
         </Box>
@@ -309,7 +319,7 @@ export default function PasswordGetter() {
         onChange={(event, value, reason) => {
           setValidInput(true);
           setRevealed(false);
-          setSelectedSite({label: value, username: "", password: ""});
+          setSelectedSite({ label: value, username: "", password: "" });
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>

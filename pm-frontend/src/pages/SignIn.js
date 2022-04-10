@@ -56,10 +56,8 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      // const foundUser = JSON.parse(loggedInUser);
-      // setUser(foundUser);
+    const foundToken = localStorage.getItem("authToken");
+    if (foundToken != null) {
       navigate("/");
     }
   });

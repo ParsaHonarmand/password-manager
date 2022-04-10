@@ -55,7 +55,7 @@ export default function TopBar() {
             </Button>
           </Typography>
 
-          {localStorage.getItem("user") ? (
+          {localStorage.getItem("authToken") ? (
             <Button color="inherit" onClick={handleLogout}>
               Log out
             </Button>
