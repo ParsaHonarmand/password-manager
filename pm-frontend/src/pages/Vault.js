@@ -215,6 +215,7 @@ export default function PasswordGetter() {
           </Typography>
 
           <PasswordAdder
+            modalCallback={() => setShowEditPop(false)}
             endpoint="changePassword"
             addCallback={handleAddCallback}
           />
