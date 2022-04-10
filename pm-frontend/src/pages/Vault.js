@@ -144,7 +144,7 @@ export default function PasswordGetter() {
   };
 
   const handleAddCallback = (newLabel) => {
-    console.log("handling call back")
+    console.log("handling call back");
     setSavedSites([...savedSites, newLabel]);
   };
 
@@ -165,7 +165,11 @@ export default function PasswordGetter() {
         Save a password:
       </Typography>
 
-      <PasswordAdder endpoint="addPassword" sx={{ mb: 2 }} addCallback={handleAddCallback} />
+      <PasswordAdder
+        endpoint="addPassword"
+        sx={{ mb: 2 }}
+        addCallback={handleAddCallback}
+      />
 
       <Modal open={showEditPop}>
         <Box sx={popupStyle}>
@@ -290,9 +294,14 @@ export default function PasswordGetter() {
         getOptionLabel={(option) => option}
         sx={{ width: 300 }}
         onChange={(event, value, reason) => {
-          setValidInput(true);
+          console.log(value);
           setRevealed(false);
-          setSelectedSite({ label: value, username: "", password: "" });
+          if (value === null) {
+            setValidInput(false);
+          } else {
+            setValidInput(true);
+            setSelectedSite({ label: value, username: "", password: "" });
+          }
         }}
         renderOption={(props, option) => (
           <Box component="li" {...props}>
