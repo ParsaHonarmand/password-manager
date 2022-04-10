@@ -250,7 +250,7 @@ export default function PasswordGetter() {
 
       <LoginPrompt open={!loggedIn} />
       <Modal
-        open={!authenticated}
+        open={!authenticated && loggedIn}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -343,7 +343,6 @@ export default function PasswordGetter() {
       <Box
         sx={{
           display: "flex",
-          //flexDirection: "column",
           alignItems: "center",
         }}
       >
@@ -363,6 +362,14 @@ export default function PasswordGetter() {
           sx={{ mt: 2, mb: 2 }}
         >
           Delete This Entry
+        </Button>
+        <Button
+          onClick={() => setShowEditPop(true)}
+          disabled={!validInput}
+          variant={validInput ? "contained" : "outlined"}
+          sx={{ mt: 2, mb: 2, ml: 2 }}
+        >
+          Edit This Entry
         </Button>
       </Box>
       {revealed ? (
