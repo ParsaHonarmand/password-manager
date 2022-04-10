@@ -194,11 +194,7 @@ export default function PasswordGetter() {
         Save a password:
       </Typography>
 
-<<<<<<< HEAD
       <PasswordAdder endpoint="addPassword" sx={{ mb: 2 }} />
-=======
-      <PasswordAdder sx={{ mb: 2 }} addCallback={handleAddCallback}/>
->>>>>>> 7e66fe51be6af78d56b331cc05fc1fc72d10a9d9
 
       <Modal open={showEditPop}>
         <Box sx={popupStyle}>
@@ -218,11 +214,7 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-<<<<<<< HEAD
-          <PasswordAdder endpoint="changePassword"/>
-=======
-          <PasswordAdder addCallback={handleAddCallback}/>
->>>>>>> 7e66fe51be6af78d56b331cc05fc1fc72d10a9d9
+          <PasswordAdder endpoint="changePassword" addCallback={handleAddCallback}/>
         </Box>
       </Modal>
 
