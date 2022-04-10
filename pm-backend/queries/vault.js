@@ -133,12 +133,9 @@ const getPassword = (request, response) => {
     })
 }
 
-const VerifyPassPhrase = (passphrase, realPassphrase) => {
-    if (passphrase === realPassphrase) {
-        return true;
-    } else {
-        return false;
-    }
+const VerifyPassPhrase = async (passphrase, realPassphrase) => {
+    const match = await bcrypt.compare(passphrase, realPassphrase)
+    return match
 }
 
 const getAllPasswords = (request, response) => {
