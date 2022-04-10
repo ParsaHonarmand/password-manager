@@ -119,9 +119,21 @@ export default function PasswordAdder(props) {
           id="password"
           autoComplete="current-password"
         />
-        <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
-          Save login
-        </Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
+          <Typography>
+            Can't think of a password? Try our{" "}
+            <a href="/generator">password generator</a>
+          </Typography>
+          <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
+            Save login
+          </Button>
+        </Box>
       </Box>
       {submitted && (
         <>

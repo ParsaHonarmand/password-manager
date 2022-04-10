@@ -24,7 +24,6 @@ export default function PasswordGetter() {
   const [validInput, setValidInput] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
   const [showDeletePop, setShowDeletePop] = useState(false);
-  // const [user, setUser] = useState();
   const [loggedIn, setLoggedIn] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [isPassWrong, setIsPassWrong] = useState(false);
@@ -32,7 +31,6 @@ export default function PasswordGetter() {
   const [errorMsg, setErrorMsg] = useState("");
   const [savedSites, setSavedSites] = useState();
 
-  const [revealedPass, setRevealedPass] = useState();
   const [selectedSite, setSelectedSite] = useState();
   const [revealed, setRevealed] = useState(false);
 
@@ -106,7 +104,6 @@ export default function PasswordGetter() {
           },
         }
       );
-      setRevealedPass(res.data.password);
       setSelectedSite(res.data);
       setRevealed(true);
     } catch (error) {
@@ -237,7 +234,7 @@ export default function PasswordGetter() {
             component="h2"
             style={{ textAlign: "center" }}
           >
-            Please Enter Your Vault Passphrase to Access
+            Please enter your passphrase to access the vault
           </Typography>
           <TextField
             id="modal-modal-description"
@@ -247,7 +244,7 @@ export default function PasswordGetter() {
             fullWidth
             label="Passphrase"
             name="passphrase"
-            autoComplete="passphrase"
+            // autoComplete="passphrase"
             autoFocus
             value={passphrase}
             onChange={(event) => setPassphrase(event.target.value)}
@@ -265,7 +262,7 @@ export default function PasswordGetter() {
             </Button>
             <Button
               type="submit"
-              color="secondary"
+              color="error"
               variant="contained"
               sx={{ flex: 4, m: 2 }}
               onClick={() => {
