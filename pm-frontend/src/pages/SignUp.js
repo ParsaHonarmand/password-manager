@@ -130,22 +130,32 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
                 <Tooltip
-                  title={<h3>
-                  What makes a password good? Make your password at least 8                  
-                  characters long! The longer your password is, the more
-                  possible combinations of characters are there. So the more
-                  characters you use, the safer it is. Use as many different
-                  characters as possible! Do not only use alphanumeric
-                  characters, also include special characters, punctuation and
-                  spaces! The more complex your password is, the safer it is. Do
-                  not reuse passwords! Once one login is hacked, the hacker has
-                  access to all other logins, too. Do you really want that? Do
-                  not use simple words or names! Your password should never be
-                  your username, the name of the website or a simple word from a
-                  dictionary! These will always be the first things a hacker
-                  exploits.</h3>}
-                  followCursor                  
-                >                  
+                  title={
+                    <h3>
+                      What makes a password good?
+                      <p></p>
+                      Make your password at least 8 characters long! The longer
+                      your password is, the more possible combinations of
+                      characters are there. So the more characters you use, the
+                      safer it is.
+                      <p></p>
+                      Use as many different characters as possible! Do not only
+                      use alphanumeric characters, also include special
+                      characters, punctuation and spaces! The more complex your
+                      password is, the safer it is.
+                      <p></p>
+                      Do not reuse passwords! Once one login is hacked, the
+                      hacker has access to all other logins, too. Do you really
+                      want that?
+                      <p></p>
+                      Do not use simple words or names! Your password should
+                      never be your username, the name of the website or a
+                      simple word from a dictionary! These will always be the
+                      first things a hacker exploits.
+                    </h3>
+                  }
+                  followCursor
+                >
                   <Typography>
                     <HelpIcon sx={{ mr: 1 }} />
                     Password Advice
@@ -174,7 +184,16 @@ export default function SignUp() {
                   autoComplete="new-passphrase"
                 />
                 <Tooltip
-                  title={<h3>You will enter your password once when you log on to our service. You will be required to use your passphrase every time you want to reveal your saved logins, as an extra layer of security</h3>}
+                  title={
+                    <h3>
+                      You will enter your password once when you log on to our
+                      service.
+                      <p></p>
+                      You will be required to use your passphrase every time you
+                      want to reveal your saved logins, as an extra layer of
+                      security
+                    </h3>
+                  }
                   followCursor
                 >
                   <Typography>
