@@ -16,6 +16,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import LoginPrompt from "../components/LoginPrompt";
 import PasswordAdder from "../components/PasswordAdder";
+import PasswordEditor from "../components/PasswordEditor";
 import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
@@ -162,11 +163,7 @@ export default function PasswordGetter() {
         Save a password:
       </Typography>
 
-      <PasswordAdder
-        endpoint="addPassword"
-        sx={{ mb: 2 }}
-        addCallback={handleAddCallback}
-      />
+      <PasswordAdder sx={{ mb: 2 }} addCallback={handleAddCallback} />
 
       <Modal open={showEditPop}>
         <Box sx={popupStyle}>
@@ -186,10 +183,11 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-          <PasswordAdder
+          <PasswordEditor
             modalCallback={() => setShowEditPop(false)}
-            endpoint="changePassword"
             addCallback={handleAddCallback}
+            username={selectedSite !== undefined ? selectedSite.username : ""}
+            website={selectedSite !== undefined ? selectedSite.label : ""}
           />
         </Box>
       </Modal>
@@ -291,7 +289,6 @@ export default function PasswordGetter() {
         getOptionLabel={(option) => option}
         sx={{ width: 300 }}
         onChange={(event, value, reason) => {
-          console.log(value);
           setRevealed(false);
           if (value === null) {
             setValidInput(false);
