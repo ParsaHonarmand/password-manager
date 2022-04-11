@@ -98,7 +98,7 @@ export default function PasswordAdder(props) {
           }}
         >
           <Tooltip
-            sx={{mb:1}}
+            sx={{ mb: 1 }}
             title={
               <h3>
                 What makes a password good?

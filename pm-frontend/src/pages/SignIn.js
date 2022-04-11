@@ -114,11 +114,12 @@ export default function SignIn() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            {!validUser ? 
+            {!validUser ? (
               <Typography color="error">
-                We couldn't find that username and password combination in our records.
+                We couldn't find that username and password combination in our
+                records.
               </Typography>
-            : null}
+            ) : null}
 
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
