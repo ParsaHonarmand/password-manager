@@ -74,7 +74,10 @@ export default function About() {
               </Typography>
             </ListItem>
             <ListItem>
-              <Typography>We are using JWT to securely send information to and from the client and backend</Typography>
+              <Typography>We are using <b>JWT</b> to securely send information to and from the client and backend. Everytime a user logs in, they receive a JWT (we use our own random secret to sign this token) from the backend. THe payload of this JWT includes the user's email, and whenever they are making a request to the backend, this JWT is used to verify their identity by the backend</Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>Additionally, every user's password is hashed + salted in the backend for an added layer of security as we didn't want to store plaintext passwords in the Database. </Typography>
             </ListItem>
           </List>
         </Box>
