@@ -244,7 +244,7 @@ export default function Vault() {
             fullWidth
             label="Passphrase"
             name="passphrase"
-            // autoComplete="passphrase"
+            autoComplete="off"
             autoFocus
             value={passphrase}
             onChange={(event) => setPassphrase(event.target.value)}
