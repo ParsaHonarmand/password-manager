@@ -242,6 +242,7 @@ export default function Vault() {
             fullWidth
             label="Passphrase"
             name="passphrase"
+            type="password"
             autoComplete="off"
             autoFocus
             value={passphrase}
