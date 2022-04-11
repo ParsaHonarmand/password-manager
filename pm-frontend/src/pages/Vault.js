@@ -260,7 +260,6 @@ export default function Vault() {
               Enter
             </Button>
             <Button
-              type="submit"
               color="error"
               variant="contained"
               sx={{ flex: 4, m: 2 }}

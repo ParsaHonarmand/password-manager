@@ -14,11 +14,25 @@ const axios = require("axios");
 export default function PasswordAdder(props) {
   const [submitted, setSubmitted] = useState(false);
   const [authToken, setAuthToken] = useState();
+  const [enteredPassword, setEnteredPassword] = useState("");
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authToken"));
   }, []);
+
+  const generatePassword = async (event) => {
+    try {
+      const res = await axios.post("http://localhost:3001/generatePassword", {
+        length: 18,
+        type: "word",
+      });
+      setEnteredPassword(res.data);
+    } catch (error) {
+      console.log("Failed to generate password");
+      console.log(error);
+    }
+  };
 
   const addPassword = async (event) => {
     event.preventDefault();
@@ -88,6 +102,10 @@ export default function PasswordAdder(props) {
           label="Password"
           type="password"
           id="password"
+          value={enteredPassword}
+          onChange={(event) => {
+            setEnteredPassword(event.target.value);
+          }}
           autoComplete="current-password"
         />
         <Box
@@ -128,10 +146,20 @@ export default function PasswordAdder(props) {
               Password Advice
             </Typography>
           </Tooltip>
-          <Typography>
-            Can't think of a password? Try our{" "}
-            <a href="/generator">password generator</a>
-          </Typography>
+          <Box display="flex" flexDirection="row">
+            <Typography>
+              Can't think of a password? Try our{" "}
+              <a href="/generator">password generator</a> <a href>or simply </a>
+              <a
+                style={{ cursor: "pointer", textDecoration: "underline" }}
+                href
+                onClick={generatePassword}
+              >
+                {" "}
+                generate a strong password
+              </a>
+            </Typography>
+          </Box>
           <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
             Save login
           </Button>
