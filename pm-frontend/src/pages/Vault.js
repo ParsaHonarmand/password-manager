@@ -16,6 +16,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import LoginPrompt from "../components/LoginPrompt";
 import PasswordAdder from "../components/PasswordAdder";
+import PasswordEditor from "../components/PasswordEditor";
 import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
@@ -111,6 +112,22 @@ export default function PasswordGetter() {
     }
   };
 
+  const getUsername = async (site) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3001/password?label=${site.label}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      setSelectedSite(res.data);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+
   const deleteEntry = async (site) => {
     console.log("Deleting " + site.label);
     try {
@@ -163,7 +180,6 @@ export default function PasswordGetter() {
       </Typography>
 
       <PasswordAdder
-        endpoint="addPassword"
         sx={{ mb: 2 }}
         addCallback={handleAddCallback}
       />
@@ -186,10 +202,11 @@ export default function PasswordGetter() {
             Edit this entry:
           </Typography>
 
-          <PasswordAdder
+          <PasswordEditor
             modalCallback={() => setShowEditPop(false)}
-            endpoint="changePassword"
             addCallback={handleAddCallback}
+            username={selectedSite!==undefined ? selectedSite.username : ""}
+            website={selectedSite!==undefined ? selectedSite.label: ""}
           />
         </Box>
       </Modal>
@@ -304,7 +321,8 @@ export default function PasswordGetter() {
           <Box component="li" {...props}>
             {option}
             <Box sx={{ marginLeft: "auto" }}>
-              <IconButton color="primary" onClick={() => setShowEditPop(true)}>
+              <IconButton color="primary" onClick={() => {setShowEditPop(true);
+                                        getUsername(option)}}>
                 <EditIcon />
               </IconButton>
 
@@ -342,7 +360,8 @@ export default function PasswordGetter() {
           Delete This Entry
         </Button>
         <Button
-          onClick={() => setShowEditPop(true)}
+          onClick={() =>  {setShowEditPop(true);
+                          getUsername(selectedSite)}}
           disabled={!validInput}
           variant={validInput ? "contained" : "outlined"}
           sx={{ mt: 2, mb: 2, ml: 2 }}
