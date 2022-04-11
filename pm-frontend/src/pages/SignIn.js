@@ -2,18 +2,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
-// import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-// import Cookies from 'js-cookie'
 import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
@@ -21,14 +17,12 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [validUser, setValidUser] = useState(true);
 
-  // const [user, setUser] = useState();
   const navigate = useNavigate();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
 
     let reqBody = {
       email: data.get("email"),
@@ -47,7 +41,6 @@ export default function SignIn() {
       localStorage.setItem("email", reqBody.email);
       localStorage.setItem("authToken", res.data.token);
       navigate("/");
-      // navigate('/vault');
     } catch (error) {
       setValidUser(false);
       console.log("Failed to login");
@@ -114,16 +107,12 @@ export default function SignIn() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            {!validUser ? 
+            {!validUser ? (
               <Typography color="error">
-                We couldn't find that username and password combination in our records.
-              </Typography>
+                We couldn't find that username and password combination in our
+                records.
+              </Typography>)
             : null}
-
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth

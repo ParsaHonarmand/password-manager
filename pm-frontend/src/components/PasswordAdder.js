@@ -3,8 +3,10 @@ import {
   Button,
   CircularProgress,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import { Help as HelpIcon } from "@mui/icons-material";
 import * as React from "react";
 import { useEffect, useState } from "react";
 const axios = require("axios");
@@ -12,11 +14,25 @@ const axios = require("axios");
 export default function PasswordAdder(props) {
   const [submitted, setSubmitted] = useState(false);
   const [authToken, setAuthToken] = useState();
+  const [enteredPassword, setEnteredPassword] = useState("");
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authToken"));
   }, []);
+
+  const generatePassword = async (event) => {
+    try {
+      const res = await axios.post("http://localhost:3001/generatePassword", {
+        length: 18,
+        type: "word",
+      });
+      setEnteredPassword(res.data);
+    } catch (error) {
+      console.log("Failed to generate password");
+      console.log(error);
+    }
+  };
 
   const addPassword = async (event) => {
     event.preventDefault();
@@ -86,6 +102,10 @@ export default function PasswordAdder(props) {
           label="Password"
           type="password"
           id="password"
+          value={enteredPassword}
+          onChange={(event) => {
+            setEnteredPassword(event.target.value);
+          }}
           autoComplete="current-password"
         />
         <Box
@@ -95,10 +115,51 @@ export default function PasswordAdder(props) {
             alignItems: "flex-start",
           }}
         >
-          <Typography>
-            Can't think of a password? Try our{" "}
-            <a href="/generator">password generator</a>
-          </Typography>
+          <Tooltip
+            sx={{ mb: 1 }}
+            title={
+              <h3>
+                What makes a password good?
+                <p></p>
+                Make your password at least 8 characters long! The longer your
+                password is, the more possible combinations of characters are
+                there. So the more characters you use, the safer it is.
+                <p></p>
+                Use as many different characters as possible! Do not only use
+                alphanumeric characters, also include special characters,
+                punctuation and spaces! The more complex your password is, the
+                safer it is.
+                <p></p>
+                Do not reuse passwords! Once one login is hacked, the hacker has
+                access to all other logins, too. Do you really want that?
+                <p></p>
+                Do not use simple words or names! Your password should never be
+                your username, the name of the website or a simple word from a
+                dictionary! These will always be the first things a hacker
+                exploits.
+              </h3>
+            }
+            followCursor
+          >
+            <Typography>
+              <HelpIcon sx={{ mr: 1 }} />
+              Password Advice
+            </Typography>
+          </Tooltip>
+          <Box display="flex" flexDirection="row">
+            <Typography>
+              Can't think of a password? Try our{" "}
+              <a href="/generator">password generator</a> <a href>or simply </a>
+              <a
+                style={{ cursor: "pointer", textDecoration: "underline" }}
+                href
+                onClick={generatePassword}
+              >
+                {" "}
+                generate a strong password
+              </a>
+            </Typography>
+          </Box>
           <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
             Save login
           </Button>

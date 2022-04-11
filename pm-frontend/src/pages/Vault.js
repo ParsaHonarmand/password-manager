@@ -20,7 +20,7 @@ import PasswordEditor from "../components/PasswordEditor";
 import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
-export default function PasswordGetter() {
+export default function Vault() {
   const navigate = useNavigate();
   const [validInput, setValidInput] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
@@ -242,7 +242,8 @@ export default function PasswordGetter() {
             fullWidth
             label="Passphrase"
             name="passphrase"
-            // autoComplete="passphrase"
+            type="password"
+            autoComplete="off"
             autoFocus
             value={passphrase}
             onChange={(event) => setPassphrase(event.target.value)}
@@ -259,7 +260,6 @@ export default function PasswordGetter() {
               Enter
             </Button>
             <Button
-              type="submit"
               color="error"
               variant="contained"
               sx={{ flex: 4, m: 2 }}
