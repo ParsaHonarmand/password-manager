@@ -459,6 +459,11 @@
   "resolved" "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz"
   "version" "0.5.2"
 
+"fsevents@~2.3.2":
+  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
+  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
+  "version" "2.3.2"
+
 "generate-passphrase@^1.2.0":
   "integrity" "sha512-RZZdKMlE+0baX3ukATStWAOBOJPPzvpoF1+5SdYt9DSLogF91FPx+ARaAjpkX/b7xqD4/uUGNCkBdFcl1PS9FQ=="
   "resolved" "https://registry.npmjs.org/generate-passphrase/-/generate-passphrase-1.2.0.tgz"

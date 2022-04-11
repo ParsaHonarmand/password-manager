@@ -107,10 +107,11 @@ export default function SignIn() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            {!validUser ? 
+            {!validUser ? (
               <Typography color="error">
-                We couldn't find that username and password combination in our records.
-              </Typography>
+                We couldn't find that username and password combination in our
+                records.
+              </Typography>)
             : null}
             <Button
               type="submit"

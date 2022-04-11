@@ -20,12 +20,12 @@ export default function PasswordAdder(props) {
     setAuthToken(localStorage.getItem("authToken"));
   }, []);
 
-  const addPassword = async (event) => {
+  const editPassword = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const inValid =
       !data.get("website") || !data.get("username") || !data.get("password");
-    console.log(inValid);
+    console.log(inValid + " : " + data.get("website"));
 
     if (inValid) {
       alert("Please fill out all fields");
@@ -34,22 +34,22 @@ export default function PasswordAdder(props) {
     setSubmitted(true);
 
     const reqBody = {
-      website: data.get("website"),
-      username: data.get("username"),
-      password: data.get("password"),
+      label: data.get("website"),
+      newUsername: data.get("username"),
+      newPassword: data.get("password"),
     };
 
     try {
-      await axios.post(apiEndpoint + "/addPassword", reqBody, {
+      await axios.put(apiEndpoint + "/changePassword", reqBody, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
       setSubmitted(false);
-      props.addCallback(reqBody.website);
-      alert("Success");
+      props.modalCallback();
+      //alert("Success");
     } catch (error) {
-      console.log("Error adding password: " + error);
+      console.log("Error editing password: " + error);
     }
   };
 
@@ -61,7 +61,7 @@ export default function PasswordAdder(props) {
         alignItems: "center",
       }}
     >
-      <Box component="form" onSubmit={addPassword} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={editPassword} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
@@ -69,8 +69,7 @@ export default function PasswordAdder(props) {
           id="website"
           label="Website"
           name="website"
-          autoComplete="website"
-          autoFocus
+          value={props.website}
         />
         <TextField
           margin="normal"
@@ -79,6 +78,7 @@ export default function PasswordAdder(props) {
           label="Username"
           id="username"
           autoComplete="username"
+          defaultValue={props.username}
         />
         <TextField
           margin="normal"
@@ -133,7 +133,7 @@ export default function PasswordAdder(props) {
             <a href="/generator">password generator</a>
           </Typography>
           <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
-            Save login
+            Edit login
           </Button>
         </Box>
       </Box>

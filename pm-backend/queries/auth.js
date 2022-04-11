@@ -36,7 +36,7 @@ const addUser = async (firstName, lastName, email, hashedPassword, hashedPassphr
     // Create JWT and send to user
     token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
         algorithm: "HS256",
-        expiresIn: process.env.JWT_EXPIRATION,
+        expiresIn: "60m",
     })
     console.log(`Sign up for ${email} successful!`)
     return token
