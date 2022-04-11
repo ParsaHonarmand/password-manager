@@ -102,12 +102,13 @@ export default function PassGenerator() {
           Generate
         </Button>
         {password !== "" && (
-          <IconButton color="inherit">
-            <ContentCopyIcon
-              onClick={() => {
-                navigator.clipboard.writeText(password);
-              }}
-            />
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              navigator.clipboard.writeText(password);
+            }}
+          >
+            <ContentCopyIcon />
           </IconButton>
         )}
       </Stack>

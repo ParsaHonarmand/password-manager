@@ -17,14 +17,12 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [validUser, setValidUser] = useState(true);
 
-  // const [user, setUser] = useState();
   const navigate = useNavigate();
   const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
 
     let reqBody = {
       email: data.get("email"),
@@ -43,7 +41,6 @@ export default function SignIn() {
       localStorage.setItem("email", reqBody.email);
       localStorage.setItem("authToken", res.data.token);
       navigate("/");
-      // navigate('/vault');
     } catch (error) {
       setValidUser(false);
       console.log("Failed to login");

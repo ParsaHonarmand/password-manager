@@ -28,7 +28,6 @@ app.use(express.static(path.resolve(__dirname, "./pm-frontend/build")));
 
 app.get("/", (req, res) => {
   res.send("<h1>Hi mom</h1>");
-  //   res.json({ message: "Hi from Express!" });
 });
 
 app.post('/login', authenticate.login)
