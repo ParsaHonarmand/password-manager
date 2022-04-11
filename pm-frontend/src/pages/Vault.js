@@ -19,7 +19,7 @@ import PasswordAdder from "../components/PasswordAdder";
 import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
-export default function PasswordGetter() {
+export default function Vault() {
   const navigate = useNavigate();
   const [validInput, setValidInput] = useState(false);
   const [showEditPop, setShowEditPop] = useState(false);
