@@ -23,7 +23,7 @@ export default function PasswordAdder(props) {
     const data = new FormData(event.currentTarget);
     const inValid =
       !data.get("website") || !data.get("username") || !data.get("password");
-    console.log(inValid);
+    console.log(inValid + " : " + data.get("website"));
 
     if (inValid) {
       alert("Please fill out all fields");
@@ -49,7 +49,7 @@ export default function PasswordAdder(props) {
       );
       setSubmitted(false);
       props.modalCallback();
-      alert("Success");
+      //alert("Success");
     } catch (error) {
       console.log("Error editing password: " + error);
     }
@@ -71,10 +71,7 @@ export default function PasswordAdder(props) {
           id="website"
           label="Website"
           name="website"
-          autoComplete="website"
           value={props.website}
-          disabled={true}
-          autoFocus
         />
         <TextField
           margin="normal"
@@ -83,7 +80,7 @@ export default function PasswordAdder(props) {
           label="Username"
           id="username"
           autoComplete="username"
-          value={props.username}
+          defaultValue={props.username}
         />
         <TextField
           margin="normal"
@@ -106,7 +103,7 @@ export default function PasswordAdder(props) {
             Can't think of a password? Try our{" "}
             <a href="/generator">password generator</a>
           </Typography>
-          <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
+          <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }} >
             Edit login
           </Button>
         </Box>
