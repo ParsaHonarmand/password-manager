@@ -14,7 +14,8 @@ const axios = require("axios");
 export default function PasswordAdder(props) {
   const [submitted, setSubmitted] = useState(false);
   const [authToken, setAuthToken] = useState();
-  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
+  const apiEndpoint = "https://password-manager-backend329.herokuapp.com"
+  // "http://localhost:" + (process.env.PORT || 3001);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authToken"));

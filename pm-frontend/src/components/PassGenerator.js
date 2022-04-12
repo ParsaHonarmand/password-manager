@@ -21,7 +21,7 @@ export default function PassGenerator() {
 
   const generatePassword = async (event) => {
     try {
-      const res = await axios.post("http://localhost:3001/generatePassword", {
+      const res = await axios.post("https://password-manager-backend329.herokuapp.com/generatePassword", {
         length: length,
         type: passType,
       });

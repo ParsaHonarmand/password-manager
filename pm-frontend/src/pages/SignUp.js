@@ -21,7 +21,8 @@ const theme = createTheme();
 export default function SignUp() {
   const navigate = useNavigate();
   const [emailTaken, setEmailTaken] = useState(false);
-  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
+  const apiEndpoint = "https://password-manager-backend329.herokuapp.com"
+  // "http://localhost:" + (process.env.PORT || 3001);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

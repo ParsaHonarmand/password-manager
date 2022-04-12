@@ -72,7 +72,7 @@ export default function Vault() {
   const getAllSites = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/passwords",
+        "https://password-manager-backend329.herokuapp.com/passwords",
         {
           passphrase: passphrase,
         },
@@ -98,7 +98,7 @@ export default function Vault() {
     console.log("Revealing " + site.label);
     try {
       const res = await axios.get(
-        `http://localhost:3001/password?label=${site.label}`,
+        `https://password-manager-backend329.herokuapp.com/password?label=${site.label}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -116,7 +116,7 @@ export default function Vault() {
     console.log("Deleting " + site.label);
     try {
       const response = await axios.delete(
-        "http://localhost:3001/removePassword",
+        "https://password-manager-backend329.herokuapp.com/removePassword",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,

@@ -15,7 +15,8 @@ export default function PasswordAdder(props) {
   const [submitted, setSubmitted] = useState(false);
   const [authToken, setAuthToken] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
-  const apiEndpoint = "http://localhost:" + (process.env.PORT || 3001);
+  const apiEndpoint = "https://password-manager-backend329.herokuapp.com"
+  // "http://localhost:" + (process.env.PORT || 3001);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("authToken"));
@@ -23,7 +24,7 @@ export default function PasswordAdder(props) {
 
   const generatePassword = async (event) => {
     try {
-      const res = await axios.post("http://localhost:3001/generatePassword", {
+      const res = await axios.post("https://password-manager-backend329.herokuapp.com/generatePassword", {
         length: 18,
         type: "word",
       });
@@ -54,7 +55,7 @@ export default function PasswordAdder(props) {
     };
 
     try {
-      await axios.post(apiEndpoint + "/addPassword", reqBody, {
+      await axios.post("https://password-manager-backend329.herokuapp.com/addPassword", reqBody, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
