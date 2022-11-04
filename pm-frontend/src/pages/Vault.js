@@ -280,7 +280,7 @@ export default function Vault() {
       >
         Search for a login:
       </Typography>
-      <Autocomplete
+      {/* <Autocomplete
         autoComplete={true}
         autoHighlight={true}
         autoSelect={true}
@@ -314,7 +314,7 @@ export default function Vault() {
         renderInput={(params) => (
           <TextField {...params} label="Login" variant="standard" />
         )}
-      />
+      /> */}
       <Box
         sx={{
           display: "flex",
